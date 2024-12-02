@@ -29,15 +29,13 @@ export const Todolist: FC<PropsType> = ({
   changeTaskStatus,
   filter,
   deleteTodolist,
-  ...restProps
 }) => {
   const [newTaskTitle, setNewTaskTitle] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
   const deleteTodolistHandler = () => deleteTodolist(todolistId);
 
-  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setNewTaskTitle(e.currentTarget.value);
+  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
@@ -78,23 +76,15 @@ export const Todolist: FC<PropsType> = ({
         {error && <div className='error-message'>{error}</div>}
       </div>
       <br />
+
       <div>
-        <button
-          className={filter === 'all' ? 'active-filter' : ''}
-          onClick={onAllClickHandler}
-        >
+        <button className={filter === 'all' ? 'active-filter' : ''} onClick={onAllClickHandler}>
           All
         </button>
-        <button
-          className={filter === 'active' ? 'active-filter' : ''}
-          onClick={onActiveClickHandler}
-        >
+        <button className={filter === 'active' ? 'active-filter' : ''} onClick={onActiveClickHandler}>
           Active
         </button>
-        <button
-          className={filter === 'completed' ? 'active-filter' : ''}
-          onClick={onCompletedClickHandler}
-        >
+        <button className={filter === 'completed' ? 'active-filter' : ''} onClick={onCompletedClickHandler}>
           Completed
         </button>
       </div>
@@ -109,12 +99,7 @@ export const Todolist: FC<PropsType> = ({
             <li key={t.id}>
               <button onClick={onRemoveHandler}>del</button>
               <label className={t.isDone ? 'completed' : ''}>
-                <input
-                  type='checkbox'
-                  checked={t.isDone}
-                  onChange={onChangeHandler}
-                />{' '}
-                <span>{t.title}</span>
+                <input type='checkbox' checked={t.isDone} onChange={onChangeHandler} /> <span>{t.title}</span>
               </label>
             </li>
           );

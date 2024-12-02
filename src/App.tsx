@@ -54,10 +54,7 @@ function App() {
       title,
       isDone: false,
     };
-    setAllTasks({
-      ...allTasks,
-      [todolistId]: [newTask, ...allTasks[todolistId]],
-    });
+    setAllTasks({ ...allTasks, [todolistId]: [newTask, ...allTasks[todolistId]] });
   };
 
   const removeTask = (id: string, todolistId: string) =>
@@ -69,22 +66,19 @@ function App() {
   const changeStatus = (id: string, todolistId: string, isDone: boolean) => {
     setAllTasks({
       ...allTasks,
-      [todolistId]: allTasks[todolistId].map((t: TaskType) =>
-        t.id === id ? { ...t, isDone: isDone } : t
-      ),
+      [todolistId]: allTasks[todolistId].map((t: TaskType) => (t.id === id ? { ...t, isDone: isDone } : t)),
     });
   };
 
-  const changeFilter = (filterVal: FilterType, todolistId: string) => {
-    setTodolists(
-      todolists.map(tl =>
-        tl.id === todolistId ? { ...tl, filter: filterVal } : tl
-      )
-    );
-  };
+  const changeFilter = (filterVal: FilterType, todolistId: string) =>
+    setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, filter: filterVal } : tl)));
 
   return (
     <div className='App'>
+      <div>
+        <input type='text' />
+        <button>+</button>
+      </div>
       {todolists.map(tl => {
         const getFilteredTasks = () => {
           switch (tl.filter) {
