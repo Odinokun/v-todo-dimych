@@ -42,6 +42,9 @@ function App() {
     ],
   });
 
+  const editTodolistName = (todolistId: string, title: string) =>
+    setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, title } : tl)));
+
   const deleteTodolist = (todolistId: string) => {
     setTodolists(todolists.filter(tl => tl.id !== todolistId));
 
@@ -49,7 +52,14 @@ function App() {
     setAllTasks({ ...allTasks });
   };
 
-  const addTask = (title: string, todolistId: string) => {
+  const editTask = (todolistId: string, id: string, title: string) => {
+    setAllTasks({
+      ...allTasks,
+      [todolistId]: allTasks[todolistId].map(t => (t.id === id ? { ...t, title } : t)),
+    });
+  };
+
+  const addTask = (todolistId: string, title: string) => {
     const newTask: TaskType = {
       id: v1(),
       title,
@@ -58,20 +68,20 @@ function App() {
     setAllTasks({ ...allTasks, [todolistId]: [newTask, ...allTasks[todolistId]] });
   };
 
-  const removeTask = (id: string, todolistId: string) =>
+  const removeTask = (todolistId: string, id: string) =>
     setAllTasks({
       ...allTasks,
       [todolistId]: allTasks[todolistId].filter((t: TaskType) => t.id !== id),
     });
 
-  const changeStatus = (id: string, todolistId: string, isDone: boolean) => {
+  const changeStatus = (todolistId: string, id: string, isDone: boolean) => {
     setAllTasks({
       ...allTasks,
       [todolistId]: allTasks[todolistId].map((t: TaskType) => (t.id === id ? { ...t, isDone: isDone } : t)),
     });
   };
 
-  const changeFilter = (filterVal: FilterType, todolistId: string) =>
+  const changeFilter = (todolistId: string, filterVal: FilterType) =>
     setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, filter: filterVal } : tl)));
 
   const addTodolist = (todolistTitle: string) => {
@@ -105,10 +115,12 @@ function App() {
           <Todolist
             key={tl.id}
             todolistId={tl.id}
+            editTodolistName={editTodolistName}
             title={tl.title}
             tasks={filteredTasks}
             removeTask={removeTask}
             addTask={addTask}
+            editTask={editTask}
             changeFilter={changeFilter}
             changeTaskStatus={changeStatus}
             filter={tl.filter}
