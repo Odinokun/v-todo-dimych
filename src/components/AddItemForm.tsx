@@ -3,9 +3,10 @@ import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 type PropsType = {
   btnName: string;
   callback: (value: string) => void;
+  errorName: string;
 };
 
-export const AddItemForm: FC<PropsType> = ({ btnName, callback }) => {
+export const AddItemForm: FC<PropsType> = ({ btnName, callback, errorName }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
@@ -16,12 +17,12 @@ export const AddItemForm: FC<PropsType> = ({ btnName, callback }) => {
     if (e.key === 'Enter' && inputValue) {
       onSendInputValue();
     } else if (e.key === 'Enter' && !inputValue) {
-      setError('Title is required');
+      setError(errorName);
     }
   };
   const onSendInputValue = () => {
     if (!inputValue.trim()) {
-      setError('Title is required');
+      setError(errorName);
       setInputValue('');
       return;
     }
@@ -36,9 +37,10 @@ export const AddItemForm: FC<PropsType> = ({ btnName, callback }) => {
         onChange={onInputValueChangeHandler}
         onKeyDown={onKeyPressHandler}
         className={error ? 'error' : ''}
+        style={{ marginRight: '5px' }}
       />
       <button onClick={onSendInputValue}>{btnName}</button>
-      {error && <div className='error-message'>{error}</div>}
+      {error && <div className='error-message'>{errorName}</div>}
     </div>
   );
 };

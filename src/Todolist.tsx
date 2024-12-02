@@ -48,7 +48,7 @@ export const Todolist: FC<PropsType> = ({
         <button onClick={deleteTodolistHandler}>del todolist</button>
       </div>
 
-      <AddItemForm btnName='add task' callback={addTaskHandler} />
+      <AddItemForm btnName='add task' callback={addTaskHandler} errorName='Hey dude!!! This field is required!' />
       <br />
 
       <div>

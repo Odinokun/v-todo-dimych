@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { v1 } from 'uuid';
 import { TaskType, Todolist } from './Todolist';
 import './App.css';
+import { AddItemForm } from './components/AddItemForm';
 
 type TodolistType = {
   id: string;
@@ -73,12 +74,20 @@ function App() {
   const changeFilter = (filterVal: FilterType, todolistId: string) =>
     setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, filter: filterVal } : tl)));
 
+  const addTodolist = (todolistTitle: string) => {
+    const newTodolist: TodolistType = {
+      id: v1(),
+      title: todolistTitle,
+      filter: 'all',
+    };
+    setTodolists([newTodolist, ...todolists]);
+    setAllTasks({ [newTodolist.id]: [], ...allTasks });
+  };
+
   return (
     <div className='App'>
-      <div>
-        <input type='text' />
-        <button>+</button>
-      </div>
+      <AddItemForm btnName='add task' callback={addTodolist} errorName="Yo-yo!!! Where is the todolist's name!" />
+      <br />
       {todolists.map(tl => {
         const getFilteredTasks = () => {
           switch (tl.filter) {
