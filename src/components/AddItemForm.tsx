@@ -6,38 +6,38 @@ type PropsType = {
 };
 
 export const AddItemForm: FC<PropsType> = ({ btnName, callback }) => {
-  const [newTaskTitle, setNewTaskTitle] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.currentTarget.value);
+  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
-    if (e.key === 'Enter' && newTaskTitle) {
-      addTaskHandler();
-    } else if (e.key === 'Enter' && !newTaskTitle) {
+    if (e.key === 'Enter' && inputValue) {
+      onSendInputValue();
+    } else if (e.key === 'Enter' && !inputValue) {
       setError('Title is required');
     }
   };
-  const addTaskHandler = () => {
-    if (!newTaskTitle.trim()) {
+  const onSendInputValue = () => {
+    if (!inputValue.trim()) {
       setError('Title is required');
-      setNewTaskTitle('');
+      setInputValue('');
       return;
     }
-    callback(newTaskTitle.trim());
-    setNewTaskTitle('');
+    callback(inputValue.trim());
+    setInputValue('');
   };
 
   return (
     <div>
       <input
-        value={newTaskTitle}
-        onChange={onNewTitleChangeHandler}
+        value={inputValue}
+        onChange={onInputValueChangeHandler}
         onKeyDown={onKeyPressHandler}
         className={error ? 'error' : ''}
       />
-      <button onClick={addTaskHandler}>{btnName}</button>
+      <button onClick={onSendInputValue}>{btnName}</button>
       {error && <div className='error-message'>{error}</div>}
     </div>
   );
