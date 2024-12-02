@@ -1,5 +1,6 @@
-import { KeyboardEvent, ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, FC } from 'react';
 import { FilterType } from './App';
+import { AddItemForm } from './components/AddItemForm';
 
 export type TaskType = {
   id: string;
@@ -30,33 +31,15 @@ export const Todolist: FC<PropsType> = ({
   filter,
   deleteTodolist,
 }) => {
-  const [newTaskTitle, setNewTaskTitle] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
-
   const deleteTodolistHandler = () => deleteTodolist(todolistId);
 
-  const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setNewTaskTitle(e.currentTarget.value);
-
-  const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
-    if (e.key === 'Enter' && newTaskTitle) {
-      addTaskHandler();
-    } else if (e.key === 'Enter' && !newTaskTitle) {
-      setError('Title is required');
-    }
-  };
-  const addTaskHandler = () => {
-    if (!newTaskTitle.trim()) {
-      setError('Title is required');
-      setNewTaskTitle('');
-      return;
-    }
-    addTask(newTaskTitle.trim(), todolistId);
-    setNewTaskTitle('');
-  };
   const onAllClickHandler = () => changeFilter('all', todolistId);
   const onActiveClickHandler = () => changeFilter('active', todolistId);
   const onCompletedClickHandler = () => changeFilter('completed', todolistId);
+
+  const addTaskHandler = (newTaskTitle: string) => {
+    addTask(newTaskTitle, todolistId);
+  };
 
   return (
     <div>
@@ -65,16 +48,7 @@ export const Todolist: FC<PropsType> = ({
         <button onClick={deleteTodolistHandler}>del todolist</button>
       </div>
 
-      <div>
-        <input
-          value={newTaskTitle}
-          onChange={onNewTitleChangeHandler}
-          onKeyDown={onKeyPressHandler}
-          className={error ? 'error' : ''}
-        />
-        <button onClick={addTaskHandler}>+</button>
-        {error && <div className='error-message'>{error}</div>}
-      </div>
+      <AddItemForm btnName='add task' callback={addTaskHandler} />
       <br />
 
       <div>
