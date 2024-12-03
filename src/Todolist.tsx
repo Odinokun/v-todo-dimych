@@ -72,15 +72,15 @@ export const Todolist: FC<PropsType> = ({
       <ul>
         {tasks.map(t => {
           const onRemoveHandler = () => removeTask(todolistId, t.id);
-          const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+          const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
             changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-          const editTaskHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
+          const onChangeTitleHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
 
           return (
             <li key={t.id} className={t.isDone ? 'completed' : ''}>
               <button onClick={onRemoveHandler}>del</button>
-              <input type='checkbox' checked={t.isDone} onChange={onChangeHandler} />
-              <EditableSpan title={t.title} callback={editTaskHandler} />
+              <input type='checkbox' checked={t.isDone} onChange={onChangeStatusHandler} />
+              <EditableSpan title={t.title} callback={onChangeTitleHandler} />
             </li>
           );
         })}

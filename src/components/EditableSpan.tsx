@@ -6,26 +6,29 @@ type PropsType = {
 };
 
 export const EditableSpan: FC<PropsType> = ({ title, callback }) => {
-  const [onEditTask, setOnEditTask] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>(title);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>('');
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      setOnEditTask(false);
+      setEditMode(false);
       callback(inputValue);
     }
   };
 
-  const setOnFocus = () => setOnEditTask(true);
-  const setOffFocus = () => {
-    setOnEditTask(false);
+  const onEditMode = () => {
+    setEditMode(true);
+    setInputValue(title);
+  };
+  const offEditMode = () => {
+    setEditMode(false);
     callback(inputValue);
   };
 
-  return onEditTask ? (
-    <input value={inputValue} onChange={onChangeHandler} onKeyDown={onKeyPressHandler} onBlur={setOffFocus} autoFocus />
+  return editMode ? (
+    <input value={inputValue} onChange={onChangeHandler} onKeyDown={onKeyPressHandler} onBlur={offEditMode} autoFocus />
   ) : (
-    <span onDoubleClick={setOnFocus}>{title}</span>
+    <span onDoubleClick={onEditMode}>{title}</span>
   );
 };
