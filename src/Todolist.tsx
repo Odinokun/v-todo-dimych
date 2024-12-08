@@ -6,12 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Typography from '@mui/material/Typography';
 
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
 
 import { FilterType } from './App';
-import Typography from '@mui/material/Typography';
 
 export type TaskType = {
   id: string;
@@ -60,7 +60,7 @@ export const Todolist: FC<PropsType> = ({
   return (
     <Box component='section'>
       <Box style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h5' component='h2'>
+        <Typography variant='h6' component='h2'>
           <EditableSpan title={title} callback={editTodolistNameHandler} />
         </Typography>
 
@@ -75,7 +75,7 @@ export const Todolist: FC<PropsType> = ({
 
       <AddItemForm
         callback={addTaskHandler}
-        errorName='Hey dude!!! This field is required!'
+        errorText='Hey dude!!! This field is required!'
       />
 
       <Box>

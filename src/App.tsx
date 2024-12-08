@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import { AddItemForm } from './components/AddItemForm';
 
 import { TaskType, Todolist } from './Todolist';
+import Typography from '@mui/material/Typography';
 
 type TodolistType = {
   id: string;
@@ -112,11 +113,15 @@ function App() {
 
   return (
     <Box component='main' sx={{ display: 'flex' }}>
-      <AddItemForm
-        btnName='add task'
-        callback={addTodolist}
-        errorName="Yo-yo!!! Where is the todolist's name!"
-      />
+      <Box component='section' style={{ padding: '8px 0' }}>
+        <Typography variant='h6' component='h2'>
+          Create new ToDo
+        </Typography>
+        <AddItemForm
+          callback={addTodolist}
+          errorName="Yo-yo!!! Where is the todolist's name!"
+        />
+      </Box>
 
       {todolists.map(tl => {
         const getFilteredTasks = () => {

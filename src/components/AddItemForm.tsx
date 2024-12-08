@@ -7,12 +7,11 @@ import TextField from '@mui/material/TextField';
 
 type PropsType = {
   callback: (value: string) => void;
-  errorName: string;
+  errorText: string;
 };
 
-export const AddItemForm: FC<PropsType> = ({ callback, errorName }) => {
+export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  // const [error, setError] = useState<string | null>(null);
   const [error, setError] = useState<boolean>(false);
 
   const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -37,14 +36,11 @@ export const AddItemForm: FC<PropsType> = ({ callback, errorName }) => {
   };
 
   return (
-    <Box
-      style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}
-    >
+    <Box style={{ marginBottom: '10px' }}>
       <TextField
-        error={error}
-        helperText={error}
         size='small'
-        placeholder='New task'
+        error={error}
+        helperText={error ? errorText : ''}
         value={inputValue}
         onChange={onInputValueChangeHandler}
         onKeyDown={onKeyPressHandler}

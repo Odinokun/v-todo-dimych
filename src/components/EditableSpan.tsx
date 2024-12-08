@@ -32,6 +32,7 @@ export const EditableSpan: FC<PropsType> = ({ title, callback }) => {
 
   return editMode ? (
     <TextField
+      size='small'
       value={inputValue}
       onChange={onChangeHandler}
       onKeyDown={onKeyPressHandler}
