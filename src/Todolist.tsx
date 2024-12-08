@@ -1,8 +1,13 @@
 import { ChangeEvent, FC } from 'react';
-import { FilterType } from './App';
+
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
-import { Button } from './components/Button';
+
+import { FilterType } from './App';
 
 export type TaskType = {
   id: string;
@@ -62,24 +67,32 @@ export const Todolist: FC<PropsType> = ({
         callback={addTaskHandler}
         errorName='Hey dude!!! This field is required!'
       />
-      <br />
 
       <div>
         <Button
-          className={filter === 'all' ? 'active-filter' : ''}
           onClick={onAllClickHandler}
-          title='All'
-        />
+          variant={filter === 'all' ? 'contained' : 'outlined'}
+          color='primary'
+          size='small'
+        >
+          All
+        </Button>
         <Button
-          className={filter === 'active' ? 'active-filter' : ''}
           onClick={onActiveClickHandler}
-          title='Active'
-        />
+          variant={filter === 'active' ? 'contained' : 'outlined'}
+          color='warning'
+          size='small'
+        >
+          Active
+        </Button>
         <Button
-          className={filter === 'completed' ? 'active-filter' : ''}
           onClick={onCompletedClickHandler}
-          title='Completed'
-        />
+          variant={filter === 'completed' ? 'contained' : 'outlined'}
+          color='success'
+          size='small'
+        >
+          Completed
+        </Button>
       </div>
 
       <ul>
@@ -92,7 +105,9 @@ export const Todolist: FC<PropsType> = ({
 
           return (
             <li key={t.id} className={t.isDone ? 'completed' : ''}>
-              <Button onClick={onRemoveHandler} title='del' />
+              <IconButton onClick={onRemoveHandler} color='error'>
+                <DeleteIcon />
+              </IconButton>
               <input
                 type='checkbox'
                 checked={t.isDone}
