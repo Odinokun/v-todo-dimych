@@ -111,7 +111,7 @@ function App() {
   };
 
   return (
-    <Box component='main'>
+    <Box component='main' sx={{ display: 'flex' }}>
       <AddItemForm
         btnName='add task'
         callback={addTodolist}

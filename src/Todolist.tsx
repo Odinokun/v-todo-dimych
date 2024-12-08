@@ -1,8 +1,9 @@
 import { ChangeEvent, FC } from 'react';
 
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
@@ -54,7 +55,7 @@ export const Todolist: FC<PropsType> = ({
     addTask(todolistId, newTaskTitle);
 
   return (
-    <div>
+    <Box component='section'>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <h3 style={{ marginRight: '10px' }}>
           <EditableSpan title={title} callback={editTodolistNameHandler} />
@@ -118,6 +119,6 @@ export const Todolist: FC<PropsType> = ({
           );
         })}
       </ul>
-    </div>
+    </Box>
   );
 };
