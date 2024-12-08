@@ -11,6 +11,7 @@ import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
 
 import { FilterType } from './App';
+import Typography from '@mui/material/Typography';
 
 export type TaskType = {
   id: string;
@@ -58,15 +59,21 @@ export const Todolist: FC<PropsType> = ({
 
   return (
     <Box component='section'>
-      <Box>
-        <h3 style={{ marginRight: '10px' }}>
+      <Box style={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant='h5' component='h2'>
           <EditableSpan title={title} callback={editTodolistNameHandler} />
-        </h3>
-        <Button title='del todolist' onClick={deleteTodolistHandler} />
+        </Typography>
+
+        <IconButton
+          onClick={deleteTodolistHandler}
+          style={{ marginLeft: 'auto' }}
+          color='error'
+        >
+          <DeleteIcon />
+        </IconButton>
       </Box>
 
       <AddItemForm
-        btnName='add task'
         callback={addTaskHandler}
         errorName='Hey dude!!! This field is required!'
       />
@@ -120,7 +127,9 @@ export const Todolist: FC<PropsType> = ({
                 checked={t.isDone}
                 onChange={onChangeStatusHandler}
               />
-              <EditableSpan title={t.title} callback={onChangeTitleHandler} />
+              <Typography variant='body1'>
+                <EditableSpan title={t.title} callback={onChangeTitleHandler} />
+              </Typography>
             </ListItem>
           );
         })}
