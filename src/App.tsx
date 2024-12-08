@@ -111,7 +111,7 @@ function App() {
   };
 
   return (
-    <Box component='section'>
+    <Box component='main'>
       <AddItemForm
         btnName='add task'
         callback={addTodolist}
