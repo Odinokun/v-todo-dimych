@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
@@ -56,12 +58,12 @@ export const Todolist: FC<PropsType> = ({
 
   return (
     <Box component='section'>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Box>
         <h3 style={{ marginRight: '10px' }}>
           <EditableSpan title={title} callback={editTodolistNameHandler} />
         </h3>
         <Button title='del todolist' onClick={deleteTodolistHandler} />
-      </div>
+      </Box>
 
       <AddItemForm
         btnName='add task'
@@ -69,7 +71,7 @@ export const Todolist: FC<PropsType> = ({
         errorName='Hey dude!!! This field is required!'
       />
 
-      <div>
+      <Box>
         <Button
           onClick={onAllClickHandler}
           variant={filter === 'all' ? 'contained' : 'outlined'}
@@ -94,9 +96,9 @@ export const Todolist: FC<PropsType> = ({
         >
           Completed
         </Button>
-      </div>
+      </Box>
 
-      <ul>
+      <List>
         {tasks.map(t => {
           const onRemoveHandler = () => removeTask(todolistId, t.id);
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -105,7 +107,11 @@ export const Todolist: FC<PropsType> = ({
             editTask(todolistId, t.id, newTaskTitle);
 
           return (
-            <li key={t.id} className={t.isDone ? 'completed' : ''}>
+            <ListItem
+              key={t.id}
+              disablePadding
+              sx={t.isDone ? { opacity: '.5' } : null}
+            >
               <IconButton onClick={onRemoveHandler} color='error'>
                 <DeleteIcon />
               </IconButton>
@@ -115,10 +121,10 @@ export const Todolist: FC<PropsType> = ({
                 onChange={onChangeStatusHandler}
               />
               <EditableSpan title={t.title} callback={onChangeTitleHandler} />
-            </li>
+            </ListItem>
           );
         })}
-      </ul>
+      </List>
     </Box>
   );
 };
