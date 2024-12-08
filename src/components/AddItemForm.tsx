@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import { Button } from './Button';
 
 type PropsType = {
   btnName: string;
@@ -6,11 +7,16 @@ type PropsType = {
   errorName: string;
 };
 
-export const AddItemForm: FC<PropsType> = ({ btnName, callback, errorName }) => {
+export const AddItemForm: FC<PropsType> = ({
+  btnName,
+  callback,
+  errorName,
+}) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
-  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
+  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
@@ -39,7 +45,7 @@ export const AddItemForm: FC<PropsType> = ({ btnName, callback, errorName }) => 
         className={error ? 'error' : ''}
         style={{ marginRight: '5px' }}
       />
-      <button onClick={onSendInputValue}>{btnName}</button>
+      <Button title={btnName} onClick={onSendInputValue} />
       {error && <div className='error-message'>{errorName}</div>}
     </div>
   );

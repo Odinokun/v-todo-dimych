@@ -2,6 +2,7 @@ import { ChangeEvent, FC } from 'react';
 import { FilterType } from './App';
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
+import { Button } from './components/Button';
 
 export type TaskType = {
   id: string;
@@ -36,14 +37,16 @@ export const Todolist: FC<PropsType> = ({
   filter,
   deleteTodolist,
 }) => {
-  const editTodolistNameHandler = (title: string) => editTodolistName(todolistId, title);
+  const editTodolistNameHandler = (title: string) =>
+    editTodolistName(todolistId, title);
   const deleteTodolistHandler = () => deleteTodolist(todolistId);
 
   const onAllClickHandler = () => changeFilter(todolistId, 'all');
   const onActiveClickHandler = () => changeFilter(todolistId, 'active');
   const onCompletedClickHandler = () => changeFilter(todolistId, 'completed');
 
-  const addTaskHandler = (newTaskTitle: string) => addTask(todolistId, newTaskTitle);
+  const addTaskHandler = (newTaskTitle: string) =>
+    addTask(todolistId, newTaskTitle);
 
   return (
     <div>
@@ -51,22 +54,32 @@ export const Todolist: FC<PropsType> = ({
         <h3 style={{ marginRight: '10px' }}>
           <EditableSpan title={title} callback={editTodolistNameHandler} />
         </h3>
-        <button onClick={deleteTodolistHandler}>del todolist</button>
+        <Button title='del todolist' onClick={deleteTodolistHandler} />
       </div>
 
-      <AddItemForm btnName='add task' callback={addTaskHandler} errorName='Hey dude!!! This field is required!' />
+      <AddItemForm
+        btnName='add task'
+        callback={addTaskHandler}
+        errorName='Hey dude!!! This field is required!'
+      />
       <br />
 
       <div>
-        <button className={filter === 'all' ? 'active-filter' : ''} onClick={onAllClickHandler}>
-          All
-        </button>
-        <button className={filter === 'active' ? 'active-filter' : ''} onClick={onActiveClickHandler}>
-          Active
-        </button>
-        <button className={filter === 'completed' ? 'active-filter' : ''} onClick={onCompletedClickHandler}>
-          Completed
-        </button>
+        <Button
+          className={filter === 'all' ? 'active-filter' : ''}
+          onClick={onAllClickHandler}
+          title='All'
+        />
+        <Button
+          className={filter === 'active' ? 'active-filter' : ''}
+          onClick={onActiveClickHandler}
+          title='Active'
+        />
+        <Button
+          className={filter === 'completed' ? 'active-filter' : ''}
+          onClick={onCompletedClickHandler}
+          title='Completed'
+        />
       </div>
 
       <ul>
@@ -74,12 +87,17 @@ export const Todolist: FC<PropsType> = ({
           const onRemoveHandler = () => removeTask(todolistId, t.id);
           const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
             changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-          const onChangeTitleHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
+          const onChangeTitleHandler = (newTaskTitle: string) =>
+            editTask(todolistId, t.id, newTaskTitle);
 
           return (
             <li key={t.id} className={t.isDone ? 'completed' : ''}>
-              <button onClick={onRemoveHandler}>del</button>
-              <input type='checkbox' checked={t.isDone} onChange={onChangeStatusHandler} />
+              <Button onClick={onRemoveHandler} title='del' />
+              <input
+                type='checkbox'
+                checked={t.isDone}
+                onChange={onChangeStatusHandler}
+              />
               <EditableSpan title={t.title} callback={onChangeTitleHandler} />
             </li>
           );
