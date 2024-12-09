@@ -14,6 +14,7 @@ import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
 
 import { FilterType } from './App';
+import Checkbox from '@mui/material/Checkbox';
 
 export type TaskType = {
   id: string;
@@ -60,7 +61,7 @@ export const Todolist: FC<PropsType> = ({
     addTask(todolistId, newTaskTitle);
 
   return (
-    <Card variant='elevation' elevation={4}>
+    <Card variant='elevation' elevation={4} style={{ minWidth: '330px' }}>
       <CardContent>
         <Box style={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant='h6' component='h2'>
@@ -125,9 +126,10 @@ export const Todolist: FC<PropsType> = ({
                 <IconButton onClick={onRemoveHandler} color='error'>
                   <DeleteIcon />
                 </IconButton>
-                <input
-                  type='checkbox'
+
+                <Checkbox
                   checked={t.isDone}
+                  // defaultChecked
                   onChange={onChangeStatusHandler}
                 />
                 <Typography variant='body1'>

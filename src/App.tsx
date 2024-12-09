@@ -123,7 +123,14 @@ function App() {
         sx={{ flexWrap: 'wrap' }}
         component='main'
       >
-        <Card variant='elevation' elevation={4} sx={{ paddingTop: '7px' }}>
+        <Card
+          variant='elevation'
+          elevation={4}
+          sx={{
+            minWidth: '330px',
+            paddingTop: '7px',
+          }}
+        >
           <CardContent>
             <Typography variant='h6' component='h2'>
               Create new ToDo
