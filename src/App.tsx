@@ -1,15 +1,19 @@
 import { useState } from 'react';
 import { v1 } from 'uuid';
 
-import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Stack from '@mui/material/Stack';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import { AddItemForm } from './components/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
-import Stack from '@mui/material/Stack';
 
 type TodolistType = {
   id: string;
@@ -116,11 +120,29 @@ function App() {
 
   return (
     <Container maxWidth='lg'>
+      <AppBar position='static'>
+        <Toolbar>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='menu'
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+            News
+          </Typography>
+          <Button color='inherit'>Login</Button>
+        </Toolbar>
+      </AppBar>
+
       <Stack
         spacing={{ xs: 2, sm: 4 }}
         direction='row'
         useFlexGap
-        sx={{ flexWrap: 'wrap' }}
+        sx={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
         component='main'
       >
         <Card

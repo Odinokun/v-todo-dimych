@@ -4,17 +4,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { AddItemForm } from './components/AddItemForm';
 import { EditableSpan } from './components/EditableSpan';
 
 import { FilterType } from './App';
-import Checkbox from '@mui/material/Checkbox';
 
 export type TaskType = {
   id: string;
@@ -82,7 +83,12 @@ export const Todolist: FC<PropsType> = ({
           errorText='Hey dude!!! This field is required!'
         />
 
-        <Box>
+        <Stack
+          spacing={{ xs: 1 }}
+          direction='row'
+          useFlexGap
+          sx={{ flexWrap: 'wrap' }}
+        >
           <Button
             onClick={onAllClickHandler}
             variant={filter === 'all' ? 'contained' : 'outlined'}
@@ -107,7 +113,7 @@ export const Todolist: FC<PropsType> = ({
           >
             Completed
           </Button>
-        </Box>
+        </Stack>
 
         <List>
           {tasks.map(t => {
@@ -128,8 +134,9 @@ export const Todolist: FC<PropsType> = ({
                 </IconButton>
 
                 <Checkbox
+                  size='small'
+                  color='success'
                   checked={t.isDone}
-                  // defaultChecked
                   onChange={onChangeStatusHandler}
                 />
                 <Typography variant='body1'>
