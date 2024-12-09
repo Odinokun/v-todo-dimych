@@ -2,6 +2,8 @@ import { ChangeEvent, FC } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -58,82 +60,87 @@ export const Todolist: FC<PropsType> = ({
     addTask(todolistId, newTaskTitle);
 
   return (
-    <Box component='section'>
-      <Box style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant='h6' component='h2'>
-          <EditableSpan title={title} callback={editTodolistNameHandler} />
-        </Typography>
+    <Card variant='elevation' elevation={4}>
+      <CardContent>
+        <Box style={{ display: 'flex', alignItems: 'center' }}>
+          <Typography variant='h6' component='h2'>
+            <EditableSpan title={title} callback={editTodolistNameHandler} />
+          </Typography>
 
-        <IconButton
-          onClick={deleteTodolistHandler}
-          style={{ marginLeft: 'auto' }}
-          color='error'
-        >
-          <DeleteIcon />
-        </IconButton>
-      </Box>
+          <IconButton
+            onClick={deleteTodolistHandler}
+            style={{ marginLeft: 'auto' }}
+            color='error'
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Box>
 
-      <AddItemForm
-        callback={addTaskHandler}
-        errorText='Hey dude!!! This field is required!'
-      />
+        <AddItemForm
+          callback={addTaskHandler}
+          errorText='Hey dude!!! This field is required!'
+        />
 
-      <Box>
-        <Button
-          onClick={onAllClickHandler}
-          variant={filter === 'all' ? 'contained' : 'outlined'}
-          color='primary'
-          size='small'
-        >
-          All
-        </Button>
-        <Button
-          onClick={onActiveClickHandler}
-          variant={filter === 'active' ? 'contained' : 'outlined'}
-          color='warning'
-          size='small'
-        >
-          Active
-        </Button>
-        <Button
-          onClick={onCompletedClickHandler}
-          variant={filter === 'completed' ? 'contained' : 'outlined'}
-          color='success'
-          size='small'
-        >
-          Completed
-        </Button>
-      </Box>
+        <Box>
+          <Button
+            onClick={onAllClickHandler}
+            variant={filter === 'all' ? 'contained' : 'outlined'}
+            color='primary'
+            size='small'
+          >
+            All
+          </Button>
+          <Button
+            onClick={onActiveClickHandler}
+            variant={filter === 'active' ? 'contained' : 'outlined'}
+            color='warning'
+            size='small'
+          >
+            Active
+          </Button>
+          <Button
+            onClick={onCompletedClickHandler}
+            variant={filter === 'completed' ? 'contained' : 'outlined'}
+            color='success'
+            size='small'
+          >
+            Completed
+          </Button>
+        </Box>
 
-      <List>
-        {tasks.map(t => {
-          const onRemoveHandler = () => removeTask(todolistId, t.id);
-          const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-          const onChangeTitleHandler = (newTaskTitle: string) =>
-            editTask(todolistId, t.id, newTaskTitle);
+        <List>
+          {tasks.map(t => {
+            const onRemoveHandler = () => removeTask(todolistId, t.id);
+            const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
+              changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+            const onChangeTitleHandler = (newTaskTitle: string) =>
+              editTask(todolistId, t.id, newTaskTitle);
 
-          return (
-            <ListItem
-              key={t.id}
-              disablePadding
-              sx={t.isDone ? { opacity: '.5' } : null}
-            >
-              <IconButton onClick={onRemoveHandler} color='error'>
-                <DeleteIcon />
-              </IconButton>
-              <input
-                type='checkbox'
-                checked={t.isDone}
-                onChange={onChangeStatusHandler}
-              />
-              <Typography variant='body1'>
-                <EditableSpan title={t.title} callback={onChangeTitleHandler} />
-              </Typography>
-            </ListItem>
-          );
-        })}
-      </List>
-    </Box>
+            return (
+              <ListItem
+                key={t.id}
+                disablePadding
+                sx={t.isDone ? { opacity: '.5' } : null}
+              >
+                <IconButton onClick={onRemoveHandler} color='error'>
+                  <DeleteIcon />
+                </IconButton>
+                <input
+                  type='checkbox'
+                  checked={t.isDone}
+                  onChange={onChangeStatusHandler}
+                />
+                <Typography variant='body1'>
+                  <EditableSpan
+                    title={t.title}
+                    callback={onChangeTitleHandler}
+                  />
+                </Typography>
+              </ListItem>
+            );
+          })}
+        </List>
+      </CardContent>
+    </Card>
   );
 };

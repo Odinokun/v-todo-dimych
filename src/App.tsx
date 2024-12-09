@@ -2,11 +2,14 @@ import { useState } from 'react';
 import { v1 } from 'uuid';
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 import { AddItemForm } from './components/AddItemForm';
-
 import { TaskType, Todolist } from './Todolist';
-import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 type TodolistType = {
   id: string;
@@ -112,48 +115,58 @@ function App() {
   };
 
   return (
-    <Box component='main' sx={{ display: 'flex' }}>
-      <Box component='section' style={{ padding: '8px 0' }}>
-        <Typography variant='h6' component='h2'>
-          Create new ToDo
-        </Typography>
-        <AddItemForm
-          callback={addTodolist}
-          errorName="Yo-yo!!! Where is the todolist's name!"
-        />
-      </Box>
+    <Container maxWidth='lg'>
+      <Stack
+        spacing={{ xs: 2, sm: 4 }}
+        direction='row'
+        useFlexGap
+        sx={{ flexWrap: 'wrap' }}
+        component='main'
+      >
+        <Card variant='elevation' elevation={4} sx={{ paddingTop: '7px' }}>
+          <CardContent>
+            <Typography variant='h6' component='h2'>
+              Create new ToDo
+            </Typography>
+            <AddItemForm
+              callback={addTodolist}
+              errorText="Yo-yo!!! Where is the todolist's name!"
+            />
+          </CardContent>
+        </Card>
 
-      {todolists.map(tl => {
-        const getFilteredTasks = () => {
-          switch (tl.filter) {
-            case 'active':
-              return allTasks[tl.id].filter((t: TaskType) => !t.isDone);
-            case 'completed':
-              return allTasks[tl.id].filter((t: TaskType) => t.isDone);
-            default:
-              return allTasks[tl.id];
-          }
-        };
-        const filteredTasks = getFilteredTasks();
+        {todolists.map(tl => {
+          const getFilteredTasks = () => {
+            switch (tl.filter) {
+              case 'active':
+                return allTasks[tl.id].filter((t: TaskType) => !t.isDone);
+              case 'completed':
+                return allTasks[tl.id].filter((t: TaskType) => t.isDone);
+              default:
+                return allTasks[tl.id];
+            }
+          };
+          const filteredTasks = getFilteredTasks();
 
-        return (
-          <Todolist
-            key={tl.id}
-            todolistId={tl.id}
-            editTodolistName={editTodolistName}
-            title={tl.title}
-            tasks={filteredTasks}
-            removeTask={removeTask}
-            addTask={addTask}
-            editTask={editTask}
-            changeFilter={changeFilter}
-            changeTaskStatus={changeStatus}
-            filter={tl.filter}
-            deleteTodolist={deleteTodolist}
-          />
-        );
-      })}
-    </Box>
+          return (
+            <Todolist
+              key={tl.id}
+              todolistId={tl.id}
+              editTodolistName={editTodolistName}
+              title={tl.title}
+              tasks={filteredTasks}
+              removeTask={removeTask}
+              addTask={addTask}
+              editTask={editTask}
+              changeFilter={changeFilter}
+              changeTaskStatus={changeStatus}
+              filter={tl.filter}
+              deleteTodolist={deleteTodolist}
+            />
+          );
+        })}
+      </Stack>
+    </Container>
   );
 }
 

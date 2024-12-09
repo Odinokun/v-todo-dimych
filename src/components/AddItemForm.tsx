@@ -39,6 +39,7 @@ export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
     <Box style={{ marginBottom: '10px' }}>
       <TextField
         size='small'
+        label='Type value'
         error={error}
         helperText={error ? errorText : ''}
         value={inputValue}
