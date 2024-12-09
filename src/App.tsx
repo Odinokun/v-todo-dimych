@@ -6,9 +6,9 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
@@ -119,7 +119,7 @@ function App() {
   };
 
   return (
-    <Container maxWidth='lg'>
+    <>
       <AppBar position='static'>
         <Toolbar>
           <IconButton
@@ -131,71 +131,71 @@ function App() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            News
+          <Typography variant='h6' component='h1' sx={{ flexGrow: 1 }}>
+            ToDo app
           </Typography>
           <Button color='inherit'>Login</Button>
         </Toolbar>
       </AppBar>
 
-      <Stack
-        spacing={{ xs: 2, sm: 4 }}
-        direction='row'
-        useFlexGap
-        sx={{ flexWrap: 'wrap', justifyContent: 'space-around' }}
-        component='main'
-      >
-        <Card
-          variant='elevation'
-          elevation={4}
-          sx={{
-            minWidth: '330px',
-            paddingTop: '7px',
-          }}
+      <Container maxWidth='lg'>
+        <Grid
+          container
+          spacing={3}
+          sx={{ padding: '20px 0', alignItems: 'stretch' }}
         >
-          <CardContent>
-            <Typography variant='h6' component='h2'>
-              Create new ToDo
-            </Typography>
-            <AddItemForm
-              callback={addTodolist}
-              errorText="Yo-yo!!! Where is the todolist's name!"
-            />
-          </CardContent>
-        </Card>
+          <Grid item xs={12}>
+            <Card
+              variant='elevation'
+              elevation={4}
+              component='article'
+              sx={{ height: '100%' }}
+            >
+              <CardContent>
+                <Typography variant='h6' component='h2'>
+                  Create new ToDo
+                </Typography>
+                <AddItemForm
+                  callback={addTodolist}
+                  errorText="Yo-yo!!! Where is the todolist's name!"
+                />
+              </CardContent>
+            </Card>
+          </Grid>
 
-        {todolists.map(tl => {
-          const getFilteredTasks = () => {
-            switch (tl.filter) {
-              case 'active':
-                return allTasks[tl.id].filter((t: TaskType) => !t.isDone);
-              case 'completed':
-                return allTasks[tl.id].filter((t: TaskType) => t.isDone);
-              default:
-                return allTasks[tl.id];
-            }
-          };
-          const filteredTasks = getFilteredTasks();
+          {todolists.map(tl => {
+            const getFilteredTasks = () => {
+              switch (tl.filter) {
+                case 'active':
+                  return allTasks[tl.id].filter((t: TaskType) => !t.isDone);
+                case 'completed':
+                  return allTasks[tl.id].filter((t: TaskType) => t.isDone);
+                default:
+                  return allTasks[tl.id];
+              }
+            };
+            const filteredTasks = getFilteredTasks();
 
-          return (
-            <Todolist
-              key={tl.id}
-              todolistId={tl.id}
-              editTodolistName={editTodolistName}
-              title={tl.title}
-              tasks={filteredTasks}
-              removeTask={removeTask}
-              addTask={addTask}
-              editTask={editTask}
-              changeFilter={changeFilter}
-              changeTaskStatus={changeStatus}
-              filter={tl.filter}
-              deleteTodolist={deleteTodolist}
-            />
-          );
-        })}
-      </Stack>
-    </Container>
+            return (
+              <Todolist
+                key={tl.id}
+                todolistId={tl.id}
+                editTodolistName={editTodolistName}
+                title={tl.title}
+                tasks={filteredTasks}
+                removeTask={removeTask}
+                addTask={addTask}
+                editTask={editTask}
+                changeFilter={changeFilter}
+                changeTaskStatus={changeStatus}
+                filter={tl.filter}
+                deleteTodolist={deleteTodolist}
+              />
+            );
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 }
 

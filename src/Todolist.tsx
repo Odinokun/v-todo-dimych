@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -62,94 +63,102 @@ export const Todolist: FC<PropsType> = ({
     addTask(todolistId, newTaskTitle);
 
   return (
-    <Card variant='elevation' elevation={4} style={{ minWidth: '330px' }}>
-      <CardContent>
-        <Box style={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant='h6' component='h2'>
-            <EditableSpan title={title} callback={editTodolistNameHandler} />
-          </Typography>
+    <Grid item xs={4}>
+      <Card
+        variant='elevation'
+        elevation={4}
+        component='article'
+        sx={{ height: '100%' }}
+      >
+        <CardContent>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography variant='h6' component='h2'>
+              <EditableSpan title={title} callback={editTodolistNameHandler} />
+            </Typography>
 
-          <IconButton
-            onClick={deleteTodolistHandler}
-            style={{ marginLeft: 'auto' }}
-            color='error'
+            <IconButton
+              onClick={deleteTodolistHandler}
+              style={{ marginLeft: 'auto' }}
+              color='error'
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Box>
+
+          <AddItemForm
+            callback={addTaskHandler}
+            errorText='Hey dude!!! This field is required!'
+          />
+
+          <Stack
+            spacing={{ xs: 1 }}
+            direction='row'
+            useFlexGap
+            sx={{ flexWrap: 'wrap' }}
           >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
+            <Button
+              onClick={onAllClickHandler}
+              variant={filter === 'all' ? 'contained' : 'outlined'}
+              color='primary'
+              size='small'
+            >
+              All
+            </Button>
+            <Button
+              onClick={onActiveClickHandler}
+              variant={filter === 'active' ? 'contained' : 'outlined'}
+              color='warning'
+              size='small'
+            >
+              Active
+            </Button>
+            <Button
+              onClick={onCompletedClickHandler}
+              variant={filter === 'completed' ? 'contained' : 'outlined'}
+              color='success'
+              size='small'
+            >
+              Completed
+            </Button>
+          </Stack>
 
-        <AddItemForm
-          callback={addTaskHandler}
-          errorText='Hey dude!!! This field is required!'
-        />
+          <List>
+            {tasks.map(t => {
+              const onRemoveHandler = () => removeTask(todolistId, t.id);
+              const onChangeStatusHandler = (
+                e: ChangeEvent<HTMLInputElement>
+              ) => changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+              const onChangeTitleHandler = (newTaskTitle: string) =>
+                editTask(todolistId, t.id, newTaskTitle);
 
-        <Stack
-          spacing={{ xs: 1 }}
-          direction='row'
-          useFlexGap
-          sx={{ flexWrap: 'wrap' }}
-        >
-          <Button
-            onClick={onAllClickHandler}
-            variant={filter === 'all' ? 'contained' : 'outlined'}
-            color='primary'
-            size='small'
-          >
-            All
-          </Button>
-          <Button
-            onClick={onActiveClickHandler}
-            variant={filter === 'active' ? 'contained' : 'outlined'}
-            color='warning'
-            size='small'
-          >
-            Active
-          </Button>
-          <Button
-            onClick={onCompletedClickHandler}
-            variant={filter === 'completed' ? 'contained' : 'outlined'}
-            color='success'
-            size='small'
-          >
-            Completed
-          </Button>
-        </Stack>
+              return (
+                <ListItem
+                  key={t.id}
+                  disablePadding
+                  sx={t.isDone ? { opacity: '.5' } : null}
+                >
+                  <IconButton onClick={onRemoveHandler} color='error'>
+                    <DeleteIcon />
+                  </IconButton>
 
-        <List>
-          {tasks.map(t => {
-            const onRemoveHandler = () => removeTask(todolistId, t.id);
-            const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-              changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-            const onChangeTitleHandler = (newTaskTitle: string) =>
-              editTask(todolistId, t.id, newTaskTitle);
-
-            return (
-              <ListItem
-                key={t.id}
-                disablePadding
-                sx={t.isDone ? { opacity: '.5' } : null}
-              >
-                <IconButton onClick={onRemoveHandler} color='error'>
-                  <DeleteIcon />
-                </IconButton>
-
-                <Checkbox
-                  size='small'
-                  color='success'
-                  checked={t.isDone}
-                  onChange={onChangeStatusHandler}
-                />
-                <Typography variant='body1'>
-                  <EditableSpan
-                    title={t.title}
-                    callback={onChangeTitleHandler}
+                  <Checkbox
+                    size='small'
+                    color='success'
+                    checked={t.isDone}
+                    onChange={onChangeStatusHandler}
                   />
-                </Typography>
-              </ListItem>
-            );
-          })}
-        </List>
-      </CardContent>
-    </Card>
+                  <Typography variant='body1'>
+                    <EditableSpan
+                      title={t.title}
+                      callback={onChangeTitleHandler}
+                    />
+                  </Typography>
+                </ListItem>
+              );
+            })}
+          </List>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
