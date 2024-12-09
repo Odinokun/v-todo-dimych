@@ -1,28 +1,33 @@
 import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 
+import Add from '@mui/icons-material/Add';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
+
 type PropsType = {
-  btnName: string;
   callback: (value: string) => void;
-  errorName: string;
+  errorText: string;
 };
 
-export const AddItemForm: FC<PropsType> = ({ btnName, callback, errorName }) => {
+export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
-  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
+  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
+    setError(false);
     if (e.key === 'Enter' && inputValue) {
       onSendInputValue();
     } else if (e.key === 'Enter' && !inputValue) {
-      setError(errorName);
+      setError(true);
     }
   };
   const onSendInputValue = () => {
     if (!inputValue.trim()) {
-      setError(errorName);
+      setError(true);
       setInputValue('');
       return;
     }
@@ -31,16 +36,19 @@ export const AddItemForm: FC<PropsType> = ({ btnName, callback, errorName }) => 
   };
 
   return (
-    <div>
-      <input
+    <Box style={{ marginBottom: '10px' }}>
+      <TextField
+        size='small'
+        label='Type value'
+        error={error}
+        helperText={error ? errorText : ''}
         value={inputValue}
         onChange={onInputValueChangeHandler}
         onKeyDown={onKeyPressHandler}
-        className={error ? 'error' : ''}
-        style={{ marginRight: '5px' }}
       />
-      <button onClick={onSendInputValue}>{btnName}</button>
-      {error && <div className='error-message'>{errorName}</div>}
-    </div>
+      <IconButton onClick={onSendInputValue} color='success' size='small'>
+        <Add />
+      </IconButton>
+    </Box>
   );
 };
