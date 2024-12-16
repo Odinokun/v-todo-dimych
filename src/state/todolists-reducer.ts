@@ -1,30 +1,26 @@
 import { v1 } from 'uuid';
 import { FilterType, TodolistType } from '../App';
 
-export type RemoveTodolistActionType = {
+export type RemoveTodoActionType = {
   type: 'REMOVE-TODOLIST';
   id: string;
 };
-export type AddTodolistActionType = {
+export type AddTodoActionType = {
   type: 'ADD-TODOLIST';
   title: string;
 };
-export type EditTodolistNameActionType = {
+export type EditTodoNameActionType = {
   type: 'EDIT-TODOLIST-NAME';
   id: string;
   title: string;
 };
-export type ChangeTodolistFilterActionType = {
+export type ChangeTodoFilterActionType = {
   type: 'CHANGE-TODOLIST-FILTER';
   id: string;
   filter: FilterType;
 };
 
-type ActionsType =
-  | RemoveTodolistActionType
-  | AddTodolistActionType
-  | EditTodolistNameActionType
-  | ChangeTodolistFilterActionType;
+type ActionsType = RemoveTodoActionType | AddTodoActionType | EditTodoNameActionType | ChangeTodoFilterActionType;
 
 export const todolistsReducer = (state: TodolistType[], action: ActionsType): TodolistType[] => {
   switch (action.type) {
@@ -42,17 +38,17 @@ export const todolistsReducer = (state: TodolistType[], action: ActionsType): To
 };
 
 // begin ACTION CREATORS
-export const RemoveTodolistAC = (todolistId: string): RemoveTodolistActionType => ({
+export const RemoveTodoAC = (todolistId: string): RemoveTodoActionType => ({
   type: 'REMOVE-TODOLIST',
   id: todolistId,
 });
-export const AddTodolistAC = (title: string): AddTodolistActionType => ({ type: 'ADD-TODOLIST', title });
-export const EditTodolistNameAC = (id: string, title: string): EditTodolistNameActionType => ({
+export const AddTodoAC = (title: string): AddTodoActionType => ({ type: 'ADD-TODOLIST', title });
+export const EditTodoNameAC = (id: string, title: string): EditTodoNameActionType => ({
   type: 'EDIT-TODOLIST-NAME',
   id,
   title,
 });
-export const ChangeTodolistFilterAC = (id: string, filter: FilterType): ChangeTodolistFilterActionType => ({
+export const ChangeTodoFilterAC = (id: string, filter: FilterType): ChangeTodoFilterActionType => ({
   type: 'CHANGE-TODOLIST-FILTER',
   id,
   filter,
