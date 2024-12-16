@@ -40,3 +40,20 @@ export const todolistsReducer = (state: TodolistType[], action: ActionsType): To
       throw new Error('I don`t understand this type');
   }
 };
+
+// begin ACTION CREATORS
+export const RemoveTodolistAC = (todolistId: string): RemoveTodolistActionType => ({
+  type: 'REMOVE-TODOLIST',
+  id: todolistId,
+});
+export const AddTodolistAC = (title: string): AddTodolistActionType => ({ type: 'ADD-TODOLIST', title });
+export const EditTodolistNameAC = (id: string, title: string): EditTodolistNameActionType => ({
+  type: 'EDIT-TODOLIST-NAME',
+  id,
+  title,
+});
+export const ChangeTodolistFilterAC = (id: string, filter: FilterType): ChangeTodolistFilterActionType => ({
+  type: 'CHANGE-TODOLIST-FILTER',
+  id,
+  filter,
+});
