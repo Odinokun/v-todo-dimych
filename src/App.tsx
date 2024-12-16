@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
 
-type TodolistType = {
+export type TodolistType = {
   id: string;
   title: string;
   filter: FilterType;

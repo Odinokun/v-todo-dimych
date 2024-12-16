@@ -32,6 +32,6 @@ test('user-reducer should change the name of user', () => {
   };
   const newName = 'James';
 
-  const endState = userReducer(startState, { type: 'CHANGE-USER-NAME' });
+  const endState = userReducer(startState, { type: 'CHANGE-USER-NAME', newName: newName });
   expect(endState.name).toEqual(newName);
 });
