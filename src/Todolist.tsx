@@ -13,8 +13,8 @@ import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { AddItemForm } from './components/AddItemForm';
-import { EditableSpan } from './components/EditableSpan';
+import { AddItemForm } from './components/AddItemForm/AddItemForm';
+import { EditableSpan } from './components/EditableSpan/EditableSpan';
 
 import { FilterType } from './App';
 
