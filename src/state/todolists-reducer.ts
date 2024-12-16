@@ -1,28 +1,28 @@
 import { v1 } from 'uuid';
 import { FilterType, TodolistType } from '../App';
 
-export type RemoveTodoActionType = {
+export type ActionRemoveTodo = {
   type: 'REMOVE-TODOLIST';
   id: string;
 };
-export type AddTodoActionType = {
+export type ActionAddTodo = {
   type: 'ADD-TODOLIST';
   title: string;
 };
-export type EditTodoNameActionType = {
+export type ActionEditTodoName = {
   type: 'EDIT-TODOLIST-NAME';
   id: string;
   title: string;
 };
-export type ChangeTodoFilterActionType = {
+export type ActionChangeTodoFilter = {
   type: 'CHANGE-TODOLIST-FILTER';
   id: string;
   filter: FilterType;
 };
 
-type ActionsType = RemoveTodoActionType | AddTodoActionType | EditTodoNameActionType | ChangeTodoFilterActionType;
+type Actions = ActionRemoveTodo | ActionAddTodo | ActionEditTodoName | ActionChangeTodoFilter;
 
-export const todolistsReducer = (state: TodolistType[], action: ActionsType): TodolistType[] => {
+export const todolistsReducer = (state: TodolistType[], action: Actions): TodolistType[] => {
   switch (action.type) {
     case 'REMOVE-TODOLIST':
       return state.filter(tl => tl.id !== action.id);
@@ -38,17 +38,17 @@ export const todolistsReducer = (state: TodolistType[], action: ActionsType): To
 };
 
 // begin ACTION CREATORS
-export const RemoveTodoAC = (todolistId: string): RemoveTodoActionType => ({
+export const RemoveTodoAC = (todolistId: string): ActionRemoveTodo => ({
   type: 'REMOVE-TODOLIST',
   id: todolistId,
 });
-export const AddTodoAC = (title: string): AddTodoActionType => ({ type: 'ADD-TODOLIST', title });
-export const EditTodoNameAC = (id: string, title: string): EditTodoNameActionType => ({
+export const AddTodoAC = (title: string): ActionAddTodo => ({ type: 'ADD-TODOLIST', title });
+export const EditTodoNameAC = (id: string, title: string): ActionEditTodoName => ({
   type: 'EDIT-TODOLIST-NAME',
   id,
   title,
 });
-export const ChangeTodoFilterAC = (id: string, filter: FilterType): ChangeTodoFilterActionType => ({
+export const ChangeTodoFilterAC = (id: string, filter: FilterType): ActionChangeTodoFilter => ({
   type: 'CHANGE-TODOLIST-FILTER',
   id,
   filter,
