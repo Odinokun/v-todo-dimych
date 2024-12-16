@@ -1,6 +1,12 @@
 import { expect, test } from 'vitest';
-import { todolistsReducer } from './todolists-reducer';
-import { TodolistType } from '../App';
+import {
+  AddTodolistActionType,
+  ChangeTodolistFilterActionType,
+  EditTodolistNameActionType,
+  RemoveTodolistActionType,
+  todolistsReducer,
+} from './todolists-reducer';
+import { FilterType, TodolistType } from '../App';
 import { v1 } from 'uuid';
 
 test('todolist must be delete', () => {
@@ -11,7 +17,7 @@ test('todolist must be delete', () => {
     { id: todolistsId1, title: 'To learn', filter: 'all' },
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
-  const action = { type: 'REMOVE-TODOLIST', id: todolistsId1 };
+  const action: RemoveTodolistActionType = { type: 'REMOVE-TODOLIST', id: todolistsId1 };
   const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(1);
@@ -27,7 +33,7 @@ test('todolist must be added', () => {
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
   const newTodolistTitle = 'New todolist';
-  const action = { type: 'ADD-TODOLIST', title: newTodolistTitle };
+  const action: AddTodolistActionType = { type: 'ADD-TODOLIST', title: newTodolistTitle };
   const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(3);
@@ -44,10 +50,30 @@ test('target todolist title must be changed', () => {
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
   const newTitle = 'New title';
-  const action = { type: 'EDIT-TODOLIST-NAME', id: todolistsId1, title: newTitle };
+  const action: EditTodolistNameActionType = { type: 'EDIT-TODOLIST-NAME', id: todolistsId1, title: newTitle };
   const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(2);
   expect(endState[0].title).toEqual(newTitle);
-  expect(endState[1].title).toEqual(startState[1].title);
+  expect(endState[1].title).toEqual('Films');
+});
+
+test('target todolist`s filter must be changed', () => {
+  const todolistsId1 = v1();
+  const todolistsId2 = v1();
+
+  const startState: TodolistType[] = [
+    { id: todolistsId1, title: 'To learn', filter: 'all' },
+    { id: todolistsId2, title: 'Films', filter: 'active' },
+  ];
+  const newFilter: FilterType = 'completed';
+  const action: ChangeTodolistFilterActionType = {
+    type: 'CHANGE-TODOLIST-FILTER',
+    id: todolistsId1,
+    filter: newFilter,
+  };
+  const endState = todolistsReducer(startState, action);
+
+  expect(endState[0].filter).toBe(newFilter);
+  expect(endState[1].filter).toBe('active');
 });
