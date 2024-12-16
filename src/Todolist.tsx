@@ -13,8 +13,8 @@ import ListItem from '@mui/material/ListItem';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { AddItemForm } from './components/AddItemForm';
-import { EditableSpan } from './components/EditableSpan';
+import { AddItemForm } from './components/AddItemForm/AddItemForm';
+import { EditableSpan } from './components/EditableSpan/EditableSpan';
 
 import { FilterType } from './App';
 
@@ -51,51 +51,32 @@ export const Todolist: FC<PropsType> = ({
   filter,
   deleteTodolist,
 }) => {
-  const editTodolistNameHandler = (title: string) =>
-    editTodolistName(todolistId, title);
+  const editTodolistNameHandler = (title: string) => editTodolistName(todolistId, title);
   const deleteTodolistHandler = () => deleteTodolist(todolistId);
 
   const onAllClickHandler = () => changeFilter(todolistId, 'all');
   const onActiveClickHandler = () => changeFilter(todolistId, 'active');
   const onCompletedClickHandler = () => changeFilter(todolistId, 'completed');
 
-  const addTaskHandler = (newTaskTitle: string) =>
-    addTask(todolistId, newTaskTitle);
+  const addTaskHandler = (newTaskTitle: string) => addTask(todolistId, newTaskTitle);
 
   return (
     <Grid item xs={4}>
-      <Card
-        variant='elevation'
-        elevation={4}
-        component='article'
-        sx={{ height: '100%' }}
-      >
+      <Card variant='elevation' elevation={4} component='article' sx={{ height: '100%' }}>
         <CardContent>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='h6' component='h2'>
               <EditableSpan title={title} callback={editTodolistNameHandler} />
             </Typography>
 
-            <IconButton
-              onClick={deleteTodolistHandler}
-              style={{ marginLeft: 'auto' }}
-              color='error'
-            >
+            <IconButton onClick={deleteTodolistHandler} style={{ marginLeft: 'auto' }} color='error'>
               <DeleteIcon />
             </IconButton>
           </Box>
 
-          <AddItemForm
-            callback={addTaskHandler}
-            errorText='Hey dude!!! This field is required!'
-          />
+          <AddItemForm callback={addTaskHandler} errorText='Hey dude!!! This field is required!' />
 
-          <Stack
-            spacing={{ xs: 1 }}
-            direction='row'
-            useFlexGap
-            sx={{ flexWrap: 'wrap' }}
-          >
+          <Stack spacing={{ xs: 1 }} direction='row' useFlexGap sx={{ flexWrap: 'wrap' }}>
             <Button
               onClick={onAllClickHandler}
               variant={filter === 'all' ? 'contained' : 'outlined'}
@@ -125,33 +106,20 @@ export const Todolist: FC<PropsType> = ({
           <List>
             {tasks.map(t => {
               const onRemoveHandler = () => removeTask(todolistId, t.id);
-              const onChangeStatusHandler = (
-                e: ChangeEvent<HTMLInputElement>
-              ) => changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-              const onChangeTitleHandler = (newTaskTitle: string) =>
-                editTask(todolistId, t.id, newTaskTitle);
+              const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
+                changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
+              const onChangeTitleHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
 
               return (
-                <ListItem
-                  key={t.id}
-                  disablePadding
-                  sx={t.isDone ? { opacity: '.5' } : null}
-                >
+                <ListItem key={t.id} disablePadding sx={t.isDone ? { opacity: '.5' } : null}>
                   <IconButton onClick={onRemoveHandler} color='error'>
                     <DeleteIcon />
                   </IconButton>
 
-                  <Checkbox
-                    size='small'
-                    color='success'
-                    checked={t.isDone}
-                    onChange={onChangeStatusHandler}
-                  />
-                  <Typography variant='body1'>
-                    <EditableSpan
-                      title={t.title}
-                      callback={onChangeTitleHandler}
-                    />
+                  <Checkbox size='small' color='success' checked={t.isDone} onChange={onChangeStatusHandler} />
+
+                  <Typography variant='body1' component='span'>
+                    <EditableSpan title={t.title} callback={onChangeTitleHandler} />
                   </Typography>
                 </ListItem>
               );

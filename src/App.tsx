@@ -12,10 +12,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { AddItemForm } from './components/AddItemForm';
+import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
 
-type TodolistType = {
+export type TodolistType = {
   id: string;
   title: string;
   filter: FilterType;
@@ -54,9 +54,7 @@ function App() {
   });
 
   const editTodolistName = (todolistId: string, title: string) =>
-    setTodolists(
-      todolists.map(tl => (tl.id === todolistId ? { ...tl, title } : tl))
-    );
+    setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, title } : tl)));
 
   const deleteTodolist = (todolistId: string) => {
     setTodolists(todolists.filter(tl => tl.id !== todolistId));
@@ -68,9 +66,7 @@ function App() {
   const editTask = (todolistId: string, id: string, title: string) => {
     setAllTasks({
       ...allTasks,
-      [todolistId]: allTasks[todolistId].map(t =>
-        t.id === id ? { ...t, title } : t
-      ),
+      [todolistId]: allTasks[todolistId].map(t => (t.id === id ? { ...t, title } : t)),
     });
   };
 
@@ -95,18 +91,12 @@ function App() {
   const changeStatus = (todolistId: string, id: string, isDone: boolean) => {
     setAllTasks({
       ...allTasks,
-      [todolistId]: allTasks[todolistId].map((t: TaskType) =>
-        t.id === id ? { ...t, isDone: isDone } : t
-      ),
+      [todolistId]: allTasks[todolistId].map((t: TaskType) => (t.id === id ? { ...t, isDone: isDone } : t)),
     });
   };
 
   const changeFilter = (todolistId: string, filterVal: FilterType) =>
-    setTodolists(
-      todolists.map(tl =>
-        tl.id === todolistId ? { ...tl, filter: filterVal } : tl
-      )
-    );
+    setTodolists(todolists.map(tl => (tl.id === todolistId ? { ...tl, filter: filterVal } : tl)));
 
   const addTodolist = (todolistTitle: string) => {
     const newTodolist: TodolistType = {
@@ -122,13 +112,7 @@ function App() {
     <>
       <AppBar position='static'>
         <Toolbar>
-          <IconButton
-            size='large'
-            edge='start'
-            color='inherit'
-            aria-label='menu'
-            sx={{ mr: 2 }}
-          >
+          <IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' component='h1' sx={{ flexGrow: 1 }}>
@@ -139,26 +123,14 @@ function App() {
       </AppBar>
 
       <Container maxWidth='lg'>
-        <Grid
-          container
-          spacing={3}
-          sx={{ padding: '20px 0', alignItems: 'stretch' }}
-        >
+        <Grid container spacing={3} sx={{ padding: '20px 0', alignItems: 'stretch' }}>
           <Grid item xs={12}>
-            <Card
-              variant='elevation'
-              elevation={4}
-              component='article'
-              sx={{ height: '100%' }}
-            >
+            <Card variant='elevation' elevation={4} component='article' sx={{ height: '100%' }}>
               <CardContent>
                 <Typography variant='h6' component='h2'>
                   Create new ToDo
                 </Typography>
-                <AddItemForm
-                  callback={addTodolist}
-                  errorText="Yo-yo!!! Where is the todolist's name!"
-                />
+                <AddItemForm callback={addTodolist} errorText="Yo-yo!!! Where is the todolist's name!" />
               </CardContent>
             </Card>
           </Grid>
