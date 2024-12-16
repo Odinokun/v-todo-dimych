@@ -10,7 +10,8 @@ test('todolist must be delete', () => {
     { id: todolistsId1, title: 'To learn', filter: 'all' },
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
-  const endState = todolistsReducer(startState, RemoveTodoAC(todolistsId1));
+  const action = RemoveTodoAC(todolistsId1);
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistsId2);
@@ -25,7 +26,8 @@ test('todolist must be added', () => {
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
   const newTodolistTitle = 'New todolist';
-  const endState = todolistsReducer(startState, AddTodoAC(newTodolistTitle));
+  const action = AddTodoAC(newTodolistTitle);
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(3);
   expect(endState[0].title).toEqual(newTodolistTitle);
@@ -41,7 +43,8 @@ test('target todolist title must be changed', () => {
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
   const newTitle = 'New title';
-  const endState = todolistsReducer(startState, EditTodoNameAC(todolistsId1, newTitle));
+  const action = EditTodoNameAC(todolistsId1, newTitle);
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(2);
   expect(endState[0].title).toEqual(newTitle);
@@ -57,7 +60,8 @@ test('target todolist`s filter must be changed', () => {
     { id: todolistsId2, title: 'Films', filter: 'active' },
   ];
   const newFilter: FilterType = 'completed';
-  const endState = todolistsReducer(startState, ChangeTodoFilterAC(todolistsId1, newFilter));
+  const action = ChangeTodoFilterAC(todolistsId1, newFilter);
+  const endState = todolistsReducer(startState, action);
 
   expect(endState[0].filter).toBe(newFilter);
   expect(endState[1].filter).toBe('active');
