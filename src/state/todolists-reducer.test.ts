@@ -29,10 +29,12 @@ test('todolist must be delete', () => {
 });
 test('todolist must be added', () => {
   const newTitle = 'New todolist';
-  const action: AddTodolistACType = addTodolistAC(newTitle);
+  const id = v1();
+  const action: AddTodolistACType = addTodolistAC(id, newTitle);
   const endState: TodolistType[] = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(3);
+  expect(endState[0].id).toEqual(id);
   expect(endState[0].title).toEqual(newTitle);
   expect(endState[0].filter).toEqual('all');
 });

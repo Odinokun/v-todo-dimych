@@ -1,19 +1,15 @@
 import { useReducer, useState } from 'react';
 import { v1 } from 'uuid';
 
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import { TaskType, Todolist } from './Todolist';
+import { Header } from './components/Header/Header';
+import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import {
   addTodolistAC,
   changeTodolistFilterAC,
@@ -111,17 +107,7 @@ function App() {
   };
   return (
     <>
-      <AppBar position='static'>
-        <Toolbar>
-          <IconButton size='large' edge='start' color='inherit' aria-label='menu' sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant='h6' component='h1' sx={{ flexGrow: 1 }}>
-            ToDo app
-          </Typography>
-          <Button color='inherit'>Login</Button>
-        </Toolbar>
-      </AppBar>
+      <Header />
 
       <Container maxWidth='lg'>
         <Grid container spacing={3} sx={{ padding: '20px 0', alignItems: 'stretch' }}>
