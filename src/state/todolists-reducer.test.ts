@@ -1,5 +1,4 @@
-import { expect, test } from 'vitest';
-import { v1 } from 'uuid';
+import { beforeEach, expect, test } from 'vitest';
 import { FilterType, TodolistType } from '../App';
 import {
   addTodolistAC,
@@ -13,34 +12,40 @@ import {
   todolistsReducer,
 } from './todolists-reducer';
 
-const todolistsId_1 = v1();
-const todolistsId_2 = v1();
-const initialState: TodolistType[] = [
-  { id: todolistsId_1, title: 'To learn', filter: 'all' },
-  { id: todolistsId_2, title: 'Films', filter: 'active' },
+const state: TodolistType[] = [
+  { id: '1', title: 'To learn', filter: 'all' },
+  { id: '2', title: 'Films', filter: 'active' },
 ];
 
-test('todolist must be delete', () => {
-  const action: RemoveTodolistACType = removeTodolistAC(todolistsId_1);
+let initialState: TodolistType[];
+
+beforeEach(() => {
+  initialState = state;
+});
+
+test('Target todolist must be deleted', () => {
+  const action: RemoveTodolistACType = removeTodolistAC('1');
   const endState: TodolistType[] = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(1);
-  expect(endState[0].id).toBe(todolistsId_2);
+  expect(endState[0].id).toBe('2');
 });
 
 test('target todolist title must be changed', () => {
   const newTitle = 'New title';
-  const action: EditTodolistNameACType = editTodolistNameAC(todolistsId_1, newTitle);
+
+  const action: EditTodolistNameACType = editTodolistNameAC('1', newTitle);
   const endState: TodolistType[] = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(2);
-  expect(endState[0].title).toEqual(newTitle);
-  expect(endState[1].title).toEqual('Films');
+  expect(endState[0].title).toBe(newTitle);
+  expect(endState[1].title).toBe('Films');
 });
 
 test('target todolist`s filter must be changed', () => {
   const newFilter: FilterType = 'completed';
-  const action: ChangeTodolistFilterACType = changeTodolistFilterAC(todolistsId_1, newFilter);
+
+  const action: ChangeTodolistFilterACType = changeTodolistFilterAC('1', newFilter);
   const endState: TodolistType[] = todolistsReducer(initialState, action);
 
   expect(endState[0].filter).toBe(newFilter);

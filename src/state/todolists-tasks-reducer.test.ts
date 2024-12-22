@@ -8,7 +8,6 @@ test('Id new todolist & id new tasks must be equal', () => {
   const initialTodolistsState: TodolistType[] = [];
 
   const action: AddTodolistACType = addTodolistAC('New todolist title');
-
   const endTasksState: AllTasksType = tasksReducer(initialTasksState, action);
   const endTodolistsState: TodolistType[] = todolistsReducer(initialTodolistsState, action);
 
