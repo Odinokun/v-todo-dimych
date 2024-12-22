@@ -85,7 +85,7 @@ test('New key with tasks array must be added when new todolist was added', () =>
   expect(endState[newKey]).toEqual([]);
 });
 
-test('Key and task`s array must be deleted', () => {
+test('Key and task`s array must be deleted when we deleting todolist', () => {
   const action: RemoveTodolistACType = removeTodolistAC(todolistsId_2);
   const endState: AllTasksType = tasksReducer(initialState, action);
 
