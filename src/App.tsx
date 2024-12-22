@@ -17,7 +17,7 @@ import {
   removeTodolistAC,
   todolistsReducer,
 } from './state/todolists-reducer';
-import { addTaskAC, addTasksAC, changeStatusAC, editTaskAC, removeTaskAC, tasksReducer } from './state/tasks-reducer';
+import { addTaskAC, changeStatusAC, editTaskAC, removeTaskAC, tasksReducer } from './state/tasks-reducer';
 
 export type TodolistType = {
   id: string;
@@ -57,15 +57,18 @@ function App() {
     ],
   });
 
+  // FIX deleteTodolist isn't working
   const deleteTodolist = (todolistId: string) => {
     dispatchTodolists(removeTodolistAC(todolistId));
-    delete allTasks[todolistId];
+    // delete allTasks[todolistId];
   };
+
+  // FIX addTodolist isn't working
   const addTodolist = (todolistTitle: string) => {
-    const id = v1();
-    dispatchTodolists(addTodolistAC(id, todolistTitle));
-    dispatchTasks(addTasksAC(id));
+    dispatchTodolists(addTodolistAC(todolistTitle));
+    // dispatchTasks(addTodolistAC(todolistTitle));
   };
+
   const editTodolistName = (todolistId: string, title: string) =>
     dispatchTodolists(editTodolistNameAC(todolistId, title));
   const changeFilter = (todolistId: string, filterVal: FilterType) =>

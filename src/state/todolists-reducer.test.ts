@@ -8,7 +8,7 @@ import {
   ChangeTodolistFilterACType,
   editTodolistNameAC,
   EditTodolistNameACType,
-  RemoveTodoACType,
+  RemoveTodolistACType,
   removeTodolistAC,
   todolistsReducer,
 } from './todolists-reducer';
@@ -21,23 +21,13 @@ const initialState: TodolistType[] = [
 ];
 
 test('todolist must be delete', () => {
-  const action: RemoveTodoACType = removeTodolistAC(todolistsId_1);
+  const action: RemoveTodolistACType = removeTodolistAC(todolistsId_1);
   const endState: TodolistType[] = todolistsReducer(initialState, action);
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistsId_2);
 });
-test('todolist must be added', () => {
-  const newTitle = 'New todolist';
-  const id = v1();
-  const action: AddTodolistACType = addTodolistAC(id, newTitle);
-  const endState: TodolistType[] = todolistsReducer(initialState, action);
 
-  expect(endState.length).toBe(3);
-  expect(endState[0].id).toEqual(id);
-  expect(endState[0].title).toEqual(newTitle);
-  expect(endState[0].filter).toEqual('all');
-});
 test('target todolist title must be changed', () => {
   const newTitle = 'New title';
   const action: EditTodolistNameACType = editTodolistNameAC(todolistsId_1, newTitle);
@@ -47,6 +37,7 @@ test('target todolist title must be changed', () => {
   expect(endState[0].title).toEqual(newTitle);
   expect(endState[1].title).toEqual('Films');
 });
+
 test('target todolist`s filter must be changed', () => {
   const newFilter: FilterType = 'completed';
   const action: ChangeTodolistFilterACType = changeTodolistFilterAC(todolistsId_1, newFilter);
@@ -54,4 +45,16 @@ test('target todolist`s filter must be changed', () => {
 
   expect(endState[0].filter).toBe(newFilter);
   expect(endState[1].filter).toBe('active');
+});
+
+test('todolist must be added', () => {
+  const newTitle = 'New todolist';
+
+  const action: AddTodolistACType = addTodolistAC(newTitle);
+  const endState: TodolistType[] = todolistsReducer(initialState, action);
+
+  expect(endState.length).toBe(3);
+  expect(endState[0].id).toBeDefined();
+  expect(endState[0].title).toEqual(newTitle);
+  expect(endState[0].filter).toEqual('all');
 });
