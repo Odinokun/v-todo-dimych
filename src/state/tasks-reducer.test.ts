@@ -1,5 +1,5 @@
 import { v1 } from 'uuid';
-import { expect, test } from 'vitest';
+import { beforeEach, expect, test } from 'vitest';
 import { AllTasksType } from '../App';
 import {
   addTaskAC,
@@ -17,7 +17,7 @@ import { addTodolistAC, AddTodolistACType, removeTodolistAC, RemoveTodolistACTyp
 const todolistsId_1 = v1();
 const todolistsId_2 = v1();
 
-const initialState: AllTasksType = {
+const state: AllTasksType = {
   [todolistsId_1]: [
     { id: '1', title: 'HTML&CSS', isDone: true },
     { id: '2', title: 'JS', isDone: true },
@@ -30,6 +30,12 @@ const initialState: AllTasksType = {
   ],
 };
 
+let initialState: AllTasksType;
+
+beforeEach(() => {
+  initialState = state;
+});
+
 test('New task must be added', () => {
   const newTitle = 'New task title';
 
@@ -39,7 +45,7 @@ test('New task must be added', () => {
   expect(endState[todolistsId_1].length).toBe(3);
   expect(endState[todolistsId_2].length).toBe(4);
   expect(endState[todolistsId_2][0].id).toBeDefined();
-  expect(endState[todolistsId_2][0].title).toEqual(newTitle);
+  expect(endState[todolistsId_2][0].title).toBe(newTitle);
   expect(endState[todolistsId_2][0].isDone).toBe(false);
 });
 
@@ -85,7 +91,7 @@ test('New key with tasks array must be added when new todolist was added', () =>
   expect(endState[newKey]).toEqual([]);
 });
 
-test('Key and task`s array must be deleted', () => {
+test('Key and task`s array must be deleted when we deleting todolist', () => {
   const action: RemoveTodolistACType = removeTodolistAC(todolistsId_2);
   const endState: AllTasksType = tasksReducer(initialState, action);
 
@@ -93,5 +99,4 @@ test('Key and task`s array must be deleted', () => {
 
   expect(keys.length).toBe(1);
   expect(endState[todolistsId_2]).toBeUndefined();
-  // expect(endState[todolistsId_2]).not.toBeDefined();
 });
