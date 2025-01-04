@@ -6,9 +6,23 @@ export type EditTodolistNameACType = ReturnType<typeof editTodolistNameAC>;
 export type ChangeTodolistFilterACType = ReturnType<typeof changeTodolistFilterAC>;
 export type AddTodolistACType = ReturnType<typeof addTodolistAC>;
 
-type ActionsType = RemoveTodolistACType | EditTodolistNameACType | ChangeTodolistFilterACType | AddTodolistACType;
+type ActionsType =
+  | RemoveTodolistACType
+  | EditTodolistNameACType
+  | ChangeTodolistFilterACType
+  | AddTodolistACType;
 
-export const todolistsReducer = (state: TodolistType[], action: ActionsType): TodolistType[] => {
+export const todolistsId1 = v1();
+export const todolistsId2 = v1();
+const initialState: TodolistType[] = [
+  { id: todolistsId1, title: 'To learn', filter: 'all' },
+  { id: todolistsId2, title: 'Films', filter: 'active' },
+];
+
+export const todolistsReducer = (
+  state: TodolistType[] = initialState,
+  action: ActionsType
+): TodolistType[] => {
   switch (action.type) {
     case 'REMOVE-TODOLIST': {
       const { id } = action.payload;
@@ -28,7 +42,7 @@ export const todolistsReducer = (state: TodolistType[], action: ActionsType): To
       return [newTodolist, ...state];
     }
     default:
-      throw new Error('I don`t understand this type');
+      return state;
   }
 };
 
