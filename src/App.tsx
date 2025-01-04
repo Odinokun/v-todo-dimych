@@ -57,16 +57,15 @@ function App() {
 		],
 	});
 
-	// FIX deleteTodolist isn't working
 	const deleteTodolist = (todolistId: string) => {
 		dispatchTodolists(removeTodolistAC(todolistId));
-		// delete allTasks[todolistId];
+		dispatchTasks(removeTodolistAC(todolistId));
 	};
 
-	// FIX addTodolist isn't working
 	const addTodolist = (todolistTitle: string) => {
-		dispatchTodolists(addTodolistAC(todolistTitle));
-		// dispatchTasks(addTodolistAC(todolistTitle));
+		const action = addTodolistAC(todolistTitle);
+		dispatchTodolists(action);
+		dispatchTasks(action);
 	};
 
 	const editTodolistName = (todolistId: string, title: string) =>
