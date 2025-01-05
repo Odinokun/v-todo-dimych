@@ -1,7 +1,7 @@
 import { v1 } from 'uuid';
 import { AllTasksType } from '../App';
 import { TaskType } from '../Todolist';
-import { AddTodolistACType, RemoveTodolistACType } from './todolists-reducer';
+import { AddTodolistACType, RemoveTodolistACType, todolistsId1, todolistsId2 } from './todolists-reducer';
 
 export type AddTaskACType = ReturnType<typeof addTaskAC>;
 export type EditTaskACType = ReturnType<typeof editTaskAC>;
@@ -16,7 +16,26 @@ type ActionsType =
   | AddTodolistACType
   | RemoveTodolistACType;
 
-export const tasksReducer = (state: AllTasksType, action: ActionsType): AllTasksType => {
+const initialState: AllTasksType = {
+  [todolistsId1]: [
+    { id: v1(), title: 'HTML&CSS', isDone: true },
+    { id: v1(), title: 'JS', isDone: true },
+    { id: v1(), title: 'React', isDone: false },
+    { id: v1(), title: 'Redux', isDone: false },
+    { id: v1(), title: 'Rest API', isDone: false },
+    { id: v1(), title: 'GraphQL', isDone: false },
+    { id: v1(), title: 'Storybook', isDone: false },
+  ],
+  [todolistsId2]: [
+    { id: v1(), title: 'Friends', isDone: true },
+    { id: v1(), title: 'Game of Thrones', isDone: true },
+    { id: v1(), title: 'Peaky Blinders', isDone: false },
+    { id: v1(), title: 'Breaking Bad', isDone: false },
+    { id: v1(), title: 'The Witcher', isDone: false },
+  ],
+};
+
+export const tasksReducer = (state: AllTasksType = initialState, action: ActionsType): AllTasksType => {
   switch (action.type) {
     case 'ADD-TASK': {
       const { todolistId, title } = action.payload;
@@ -45,7 +64,6 @@ export const tasksReducer = (state: AllTasksType, action: ActionsType): AllTasks
       return stateCopy;
     }
     default:
-      console.log('I don`t know this action`s type');
       return state;
   }
 };

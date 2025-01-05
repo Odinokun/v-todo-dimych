@@ -14,8 +14,7 @@ export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
 
-  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
-    setInputValue(e.currentTarget.value);
+  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(false);
