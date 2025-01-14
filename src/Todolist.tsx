@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import { EditableSpan } from './components/EditableSpan/EditableSpan';
 
 import { FilterType } from './App';
+import { Task } from './components/Task/Task';
 
 export type TaskType = {
   id: string;
@@ -38,95 +39,119 @@ type PropsType = {
   deleteTodolist: (todolistId: string) => void;
 };
 
-export const Todolist: FC<PropsType> = ({
-  todolistId,
-  editTodolistName,
-  title,
-  tasks,
-  removeTask,
-  addTask,
-  editTask,
-  changeFilter,
-  changeTaskStatus,
-  filter,
-  deleteTodolist,
-}) => {
-  const editTodolistNameHandler = (title: string) => editTodolistName(todolistId, title);
-  const deleteTodolistHandler = () => deleteTodolist(todolistId);
+export const Todolist: FC<PropsType> = React.memo(
+  ({
+    todolistId,
+    editTodolistName,
+    title,
+    tasks,
+    removeTask,
+    addTask,
+    editTask,
+    changeFilter,
+    changeTaskStatus,
+    filter,
+    deleteTodolist,
+  }) => {
+    const editTodolistNameHandler = useCallback(
+      (title: string) => editTodolistName(todolistId, title),
+      [editTodolistName, todolistId]
+    );
+    const deleteTodolistHandler = () => deleteTodolist(todolistId);
+    const onAllClickHandler = useCallback(
+      () => changeFilter(todolistId, 'all'),
+      [changeFilter, todolistId]
+    );
+    const onActiveClickHandler = useCallback(
+      () => changeFilter(todolistId, 'active'),
+      [changeFilter, todolistId]
+    );
+    const onCompletedClickHandler = useCallback(
+      () => changeFilter(todolistId, 'completed'),
+      [changeFilter, todolistId]
+    );
+    const addTaskHandler = useCallback(
+      (newTaskTitle: string) => addTask(todolistId, newTaskTitle),
+      [addTask, todolistId]
+    );
 
-  const onAllClickHandler = () => changeFilter(todolistId, 'all');
-  const onActiveClickHandler = () => changeFilter(todolistId, 'active');
-  const onCompletedClickHandler = () => changeFilter(todolistId, 'completed');
+    const getFilteredTasks = () => {
+      switch (filter) {
+        case 'active':
+          return tasks.filter((t: TaskType) => !t.isDone);
+        case 'completed':
+          return tasks.filter((t: TaskType) => t.isDone);
+        default:
+          return tasks;
+      }
+    };
+    const filteredTasks = getFilteredTasks();
 
-  const addTaskHandler = (newTaskTitle: string) => addTask(todolistId, newTaskTitle);
+    return (
+      <Grid item xs={4}>
+        <Card variant='elevation' elevation={4} component='article' sx={{ height: '100%' }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant='h6' component='h2'>
+                <EditableSpan title={title} callback={editTodolistNameHandler} />
+              </Typography>
 
-  return (
-    <Grid item xs={4}>
-      <Card variant='elevation' elevation={4} component='article' sx={{ height: '100%' }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography variant='h6' component='h2'>
-              <EditableSpan title={title} callback={editTodolistNameHandler} />
-            </Typography>
+              <IconButton
+                onClick={deleteTodolistHandler}
+                style={{ marginLeft: 'auto' }}
+                color='error'
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
 
-            <IconButton onClick={deleteTodolistHandler} style={{ marginLeft: 'auto' }} color='error'>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
+            <AddItemForm
+              callback={addTaskHandler}
+              errorText='Hey dude!!! This field is required!'
+            />
 
-          <AddItemForm callback={addTaskHandler} errorText='Hey dude!!! This field is required!' />
+            <Stack spacing={{ xs: 1 }} direction='row' useFlexGap sx={{ flexWrap: 'wrap' }}>
+              <Button
+                onClick={onAllClickHandler}
+                variant={filter === 'all' ? 'contained' : 'outlined'}
+                color='primary'
+                size='small'
+              >
+                All
+              </Button>
+              <Button
+                onClick={onActiveClickHandler}
+                variant={filter === 'active' ? 'contained' : 'outlined'}
+                color='warning'
+                size='small'
+              >
+                Active
+              </Button>
+              <Button
+                onClick={onCompletedClickHandler}
+                variant={filter === 'completed' ? 'contained' : 'outlined'}
+                color='success'
+                size='small'
+              >
+                Completed
+              </Button>
+            </Stack>
 
-          <Stack spacing={{ xs: 1 }} direction='row' useFlexGap sx={{ flexWrap: 'wrap' }}>
-            <Button
-              onClick={onAllClickHandler}
-              variant={filter === 'all' ? 'contained' : 'outlined'}
-              color='primary'
-              size='small'
-            >
-              All
-            </Button>
-            <Button
-              onClick={onActiveClickHandler}
-              variant={filter === 'active' ? 'contained' : 'outlined'}
-              color='warning'
-              size='small'
-            >
-              Active
-            </Button>
-            <Button
-              onClick={onCompletedClickHandler}
-              variant={filter === 'completed' ? 'contained' : 'outlined'}
-              color='success'
-              size='small'
-            >
-              Completed
-            </Button>
-          </Stack>
-
-          <List>
-            {tasks.map(t => {
-              const onRemoveHandler = () => removeTask(todolistId, t.id);
-              const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-                changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-              const onChangeTitleHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
-
-              return (
-                <ListItem key={t.id} disablePadding sx={t.isDone ? { opacity: '.5' } : null}>
-                  <IconButton onClick={onRemoveHandler} color='error'>
-                    <DeleteIcon />
-                  </IconButton>
-
-                  <Checkbox size='small' color='success' checked={t.isDone} onChange={onChangeStatusHandler} />
-
-                  <Typography variant='body1' component='span'>
-                    <EditableSpan title={t.title} callback={onChangeTitleHandler} />
-                  </Typography>
-                </ListItem>
-              );
-            })}
-          </List>
-        </CardContent>
-      </Card>
-    </Grid>
-  );
-};
+            <List>
+              {filteredTasks.map(t => (
+                <Task
+                  key={t.id}
+                  removeTask={removeTask}
+                  changeTaskStatus={changeTaskStatus}
+                  editTask={editTask}
+                  todolistId={todolistId}
+                  task={t}
+                />
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      </Grid>
+    );
+  }
+);

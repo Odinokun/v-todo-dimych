@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 
 import Add from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -10,14 +10,17 @@ type PropsType = {
   errorText: string;
 };
 
-export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
+export const AddItemForm: FC<PropsType> = React.memo(({ callback, errorText }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
 
-  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
+  const onInputValueChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.currentTarget.value);
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(false);
+    if (error) {
+      setError(false);
+    }
     if (e.key === 'Enter' && inputValue) {
       onSendInputValue();
     } else if (e.key === 'Enter' && !inputValue) {
@@ -50,4 +53,4 @@ export const AddItemForm: FC<PropsType> = ({ callback, errorText }) => {
       </IconButton>
     </Box>
   );
-};
+});

@@ -1,12 +1,12 @@
+import React, { FC } from 'react';
 import Menu from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { FC } from 'react';
 
-export const Header: FC = () => {
+export const Header: FC = React.memo(() => {
   return (
     <AppBar position='static'>
       <Toolbar>
@@ -20,4 +20,4 @@ export const Header: FC = () => {
       </Toolbar>
     </AppBar>
   );
-};
+});
