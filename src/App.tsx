@@ -16,6 +16,7 @@ import {
 import { addTaskAC, changeStatusAC, editTaskAC, removeTaskAC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
+import { useCallback } from 'react';
 
 export type TodolistType = {
   id: string;
@@ -38,7 +39,10 @@ function App() {
 
   const deleteTodolist = (todolistId: string) => dispatch(removeTodolistAC(todolistId));
 
-  const addTodolist = (todolistTitle: string) => dispatch(addTodolistAC(todolistTitle));
+  const addTodolist = useCallback(
+    (todolistTitle: string) => dispatch(addTodolistAC(todolistTitle)),
+    [dispatch]
+  );
 
   const editTodolistName = (todolistId: string, title: string) =>
     dispatch(editTodolistNameAC(todolistId, title));
