@@ -11,7 +11,6 @@ type PropsType = {
 };
 
 export const AddItemForm: FC<PropsType> = React.memo(({ callback, errorText }) => {
-  console.log('AddItemForm');
   const [inputValue, setInputValue] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
 

@@ -31,7 +31,6 @@ export type AllTasksType = {
 export type FilterType = 'all' | 'active' | 'completed';
 
 const App = React.memo(() => {
-  console.log('App => ');
   const dispatch = useDispatch();
 
   // First type is GlobalStateType, second type is TodolistType[]

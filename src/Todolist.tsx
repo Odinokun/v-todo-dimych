@@ -17,6 +17,7 @@ import { AddItemForm } from './components/AddItemForm/AddItemForm';
 import { EditableSpan } from './components/EditableSpan/EditableSpan';
 
 import { FilterType } from './App';
+import { Task } from './components/Task/Task';
 
 export type TaskType = {
   id: string;
@@ -52,7 +53,6 @@ export const Todolist: FC<PropsType> = React.memo(
     filter,
     deleteTodolist,
   }) => {
-    console.log('Todolist => ');
     const editTodolistNameHandler = useCallback(
       (title: string) => editTodolistName(todolistId, title),
       [editTodolistName, todolistId]
@@ -138,32 +138,16 @@ export const Todolist: FC<PropsType> = React.memo(
             </Stack>
 
             <List>
-              {filteredTasks.map(t => {
-                const onRemoveHandler = () => removeTask(todolistId, t.id);
-                const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-                  changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-                const onChangeTitleHandler = (newTaskTitle: string) =>
-                  editTask(todolistId, t.id, newTaskTitle);
-
-                return (
-                  <ListItem key={t.id} disablePadding sx={t.isDone ? { opacity: '.5' } : null}>
-                    <IconButton onClick={onRemoveHandler} color='error'>
-                      <DeleteIcon />
-                    </IconButton>
-
-                    <Checkbox
-                      size='small'
-                      color='success'
-                      checked={t.isDone}
-                      onChange={onChangeStatusHandler}
-                    />
-
-                    <Typography variant='body1' component='span'>
-                      <EditableSpan title={t.title} callback={onChangeTitleHandler} />
-                    </Typography>
-                  </ListItem>
-                );
-              })}
+              {filteredTasks.map(t => (
+                <Task
+                  key={t.id}
+                  removeTask={removeTask}
+                  changeTaskStatus={changeTaskStatus}
+                  editTask={editTask}
+                  todolistId={todolistId}
+                  task={t}
+                />
+              ))}
             </List>
           </CardContent>
         </Card>
