@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC } from 'react';
+import React, { ChangeEvent, FC, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -52,14 +52,28 @@ export const Todolist: FC<PropsType> = React.memo(
     filter,
     deleteTodolist,
   }) => {
-    const editTodolistNameHandler = (title: string) => editTodolistName(todolistId, title);
+    console.log('Todolist => ');
+    const editTodolistNameHandler = useCallback(
+      (title: string) => editTodolistName(todolistId, title),
+      [editTodolistName, todolistId]
+    );
     const deleteTodolistHandler = () => deleteTodolist(todolistId);
-
-    const onAllClickHandler = () => changeFilter(todolistId, 'all');
-    const onActiveClickHandler = () => changeFilter(todolistId, 'active');
-    const onCompletedClickHandler = () => changeFilter(todolistId, 'completed');
-
-    const addTaskHandler = (newTaskTitle: string) => addTask(todolistId, newTaskTitle);
+    const onAllClickHandler = useCallback(
+      () => changeFilter(todolistId, 'all'),
+      [changeFilter, todolistId]
+    );
+    const onActiveClickHandler = useCallback(
+      () => changeFilter(todolistId, 'active'),
+      [changeFilter, todolistId]
+    );
+    const onCompletedClickHandler = useCallback(
+      () => changeFilter(todolistId, 'completed'),
+      [changeFilter, todolistId]
+    );
+    const addTaskHandler = useCallback(
+      (newTaskTitle: string) => addTask(todolistId, newTaskTitle),
+      [addTask, todolistId]
+    );
 
     const getFilteredTasks = () => {
       switch (filter) {

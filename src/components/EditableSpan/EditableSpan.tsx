@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -8,11 +8,13 @@ type PropsType = {
   callback: (title: string) => void;
 };
 
-export const EditableSpan: FC<PropsType> = ({ title, callback }) => {
+export const EditableSpan: FC<PropsType> = React.memo(({ title, callback }) => {
+  console.log('EditableSpan => ');
   const [editMode, setEditMode] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setInputValue(e.currentTarget.value);
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setInputValue(e.currentTarget.value);
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       setEditMode(false);
@@ -42,4 +44,4 @@ export const EditableSpan: FC<PropsType> = ({ title, callback }) => {
   ) : (
     <Box onDoubleClick={onEditMode}>{title}</Box>
   );
-};
+});
