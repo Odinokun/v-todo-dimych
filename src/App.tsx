@@ -1,12 +1,4 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-
-import { TaskType, Todolist } from './Todolist';
-import { Header } from './components/Header/Header';
-import { AddItemForm } from './components/AddItemForm/AddItemForm';
+import React, { useCallback } from 'react';
 import {
   addTodolistAC,
   changeTodolistFilterAC,
@@ -16,7 +8,16 @@ import {
 import { addTaskAC, changeStatusAC, editTaskAC, removeTaskAC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
-import { useCallback } from 'react';
+
+import { Header } from './components/Header/Header';
+import { AddItemForm } from './components/AddItemForm/AddItemForm';
+import { TaskType, Todolist } from './Todolist';
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
 export type TodolistType = {
   id: string;
@@ -29,7 +30,8 @@ export type AllTasksType = {
 
 export type FilterType = 'all' | 'active' | 'completed';
 
-function App() {
+const App = React.memo(() => {
+  console.log('App => ');
   const dispatch = useDispatch();
 
   // First type is GlobalStateType, second type is TodolistType[]
@@ -37,28 +39,47 @@ function App() {
   // First type is GlobalStateType, second type is AllTasksType
   const allTasks = useSelector<AppRootStateType, AllTasksType>(state => state.tasks);
 
-  const deleteTodolist = (todolistId: string) => dispatch(removeTodolistAC(todolistId));
+  const deleteTodolist = useCallback(
+    (todolistId: string) => dispatch(removeTodolistAC(todolistId)),
+    [dispatch]
+  );
 
   const addTodolist = useCallback(
     (todolistTitle: string) => dispatch(addTodolistAC(todolistTitle)),
     [dispatch]
   );
 
-  const editTodolistName = (todolistId: string, title: string) =>
-    dispatch(editTodolistNameAC(todolistId, title));
+  const editTodolistName = useCallback(
+    (todolistId: string, title: string) => dispatch(editTodolistNameAC(todolistId, title)),
+    [dispatch]
+  );
 
-  const changeFilter = (todolistId: string, filterVal: FilterType) =>
-    dispatch(changeTodolistFilterAC(todolistId, filterVal));
+  const changeFilter = useCallback(
+    (todolistId: string, filterVal: FilterType) =>
+      dispatch(changeTodolistFilterAC(todolistId, filterVal)),
+    [dispatch]
+  );
 
-  const addTask = (todolistId: string, title: string) => dispatch(addTaskAC(todolistId, title));
+  const addTask = useCallback(
+    (todolistId: string, title: string) => dispatch(addTaskAC(todolistId, title)),
+    [dispatch]
+  );
 
-  const editTask = (todolistId: string, id: string, title: string) =>
-    dispatch(editTaskAC(todolistId, id, title));
+  const editTask = useCallback(
+    (todolistId: string, id: string, title: string) => dispatch(editTaskAC(todolistId, id, title)),
+    [dispatch]
+  );
 
-  const removeTask = (todolistId: string, id: string) => dispatch(removeTaskAC(todolistId, id));
+  const removeTask = useCallback(
+    (todolistId: string, id: string) => dispatch(removeTaskAC(todolistId, id)),
+    [dispatch]
+  );
 
-  const changeStatus = (todolistId: string, id: string, isDone: boolean) =>
-    dispatch(changeStatusAC(todolistId, id, isDone));
+  const changeStatus = useCallback(
+    (todolistId: string, id: string, isDone: boolean) =>
+      dispatch(changeStatusAC(todolistId, id, isDone)),
+    [dispatch]
+  );
 
   return (
     <>
@@ -102,6 +123,6 @@ function App() {
       </Container>
     </>
   );
-}
+});
 
 export default App;
