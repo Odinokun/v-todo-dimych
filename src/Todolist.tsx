@@ -60,6 +60,18 @@ export const Todolist: FC<PropsType> = ({
 
   const addTaskHandler = (newTaskTitle: string) => addTask(todolistId, newTaskTitle);
 
+  const getFilteredTasks = () => {
+    switch (filter) {
+      case 'active':
+        return tasks.filter((t: TaskType) => !t.isDone);
+      case 'completed':
+        return tasks.filter((t: TaskType) => t.isDone);
+      default:
+        return tasks;
+    }
+  };
+  const filteredTasks = getFilteredTasks();
+
   return (
     <Grid item xs={4}>
       <Card variant='elevation' elevation={4} component='article' sx={{ height: '100%' }}>
@@ -69,7 +81,11 @@ export const Todolist: FC<PropsType> = ({
               <EditableSpan title={title} callback={editTodolistNameHandler} />
             </Typography>
 
-            <IconButton onClick={deleteTodolistHandler} style={{ marginLeft: 'auto' }} color='error'>
+            <IconButton
+              onClick={deleteTodolistHandler}
+              style={{ marginLeft: 'auto' }}
+              color='error'
+            >
               <DeleteIcon />
             </IconButton>
           </Box>
@@ -104,11 +120,12 @@ export const Todolist: FC<PropsType> = ({
           </Stack>
 
           <List>
-            {tasks.map(t => {
+            {filteredTasks.map(t => {
               const onRemoveHandler = () => removeTask(todolistId, t.id);
               const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
                 changeTaskStatus(todolistId, t.id, e.currentTarget.checked);
-              const onChangeTitleHandler = (newTaskTitle: string) => editTask(todolistId, t.id, newTaskTitle);
+              const onChangeTitleHandler = (newTaskTitle: string) =>
+                editTask(todolistId, t.id, newTaskTitle);
 
               return (
                 <ListItem key={t.id} disablePadding sx={t.isDone ? { opacity: '.5' } : null}>
@@ -116,7 +133,12 @@ export const Todolist: FC<PropsType> = ({
                     <DeleteIcon />
                   </IconButton>
 
-                  <Checkbox size='small' color='success' checked={t.isDone} onChange={onChangeStatusHandler} />
+                  <Checkbox
+                    size='small'
+                    color='success'
+                    checked={t.isDone}
+                    onChange={onChangeStatusHandler}
+                  />
 
                   <Typography variant='body1' component='span'>
                     <EditableSpan title={t.title} callback={onChangeTitleHandler} />

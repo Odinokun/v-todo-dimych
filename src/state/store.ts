@@ -12,6 +12,6 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer);
 
 // store.getState(); => show the state in console
-store.subscribe(() => {
-  console.log('state was changed => ', store.getState());
-});
+// store.subscribe(() => {
+//   console.log('state was changed => ', store.getState());
+// });

@@ -77,25 +77,13 @@ function App() {
           </Grid>
 
           {todolists.map(tl => {
-            const getFilteredTasks = () => {
-              switch (tl.filter) {
-                case 'active':
-                  return allTasks[tl.id].filter((t: TaskType) => !t.isDone);
-                case 'completed':
-                  return allTasks[tl.id].filter((t: TaskType) => t.isDone);
-                default:
-                  return allTasks[tl.id];
-              }
-            };
-            const filteredTasks = getFilteredTasks();
-
             return (
               <Todolist
                 key={tl.id}
                 todolistId={tl.id}
                 editTodolistName={editTodolistName}
                 title={tl.title}
-                tasks={filteredTasks}
+                tasks={allTasks[tl.id]}
                 removeTask={removeTask}
                 addTask={addTask}
                 editTask={editTask}
